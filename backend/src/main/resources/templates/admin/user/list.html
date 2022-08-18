@@ -1,0 +1,49 @@
+<!doctype html>
+<html th:replace="~{adminlte3 :: layout (~{::title}, ~{::main}, _, _)}">
+<head>
+<meta charset="UTF-8" />
+<title>Document</title>
+</head>
+<body>
+	<main>
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">User List</div>
+						<div class="card-tools">
+							<a th:href="@{/admin/users/insert}" class="btn btn-sm btn-success">New
+								User</a>
+						</div>
+					</div>
+					<div class="card-body">
+						<table class="table table-condensed">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="user : ${users}">
+									<td th:text="${user.id}"></td>
+									<td th:text="${user.completeName}"></td>
+									<td th:text="${user.email}"></td>
+									<td><a class="btn btn-sm btn-warning"
+										th:href="@{/admin/users/{id}/update (id=${user.id})}">
+											Update </a> <a class="btn btn-sm btn-danger"
+										th:href="@{/admin/users/{id}/delete (id=${user.id})}"
+										onclick="return confirm('Are you sure that want delete this user?')">
+											Delete </a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
