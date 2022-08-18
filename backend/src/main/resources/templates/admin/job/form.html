@@ -1,0 +1,184 @@
+<!doctype html>
+<html th:replace="~{adminlte3 :: layout (~{::title}, ~{::main}, _, ~{::scripts})}">
+<head>
+	<meta charset="UTF-8" />
+	<title>Application Form</title>
+</head>
+<body>
+	<main>
+		<div class="row">
+			<div class="col">
+				<div class="card card-primary">
+					<div class="card-header">
+						<div class="card-title">Application Form</div>
+					</div>
+					<div class="card-body">
+					
+						<form method="POST" th:object="${form}">
+							
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="name">Name</label>
+										<input type="text" class="form-control" th:field="*{name}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="minAmount">Minimum Amount</label>
+										<input type="text" class="form-control money" th:field="*{minAmount}" />
+									</div>
+								</div>								
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="qtyHours">Quantity Hours</label>
+										<input type="number" class="form-control" th:field="*{qtyHours}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="percentComission">Percent Comission</label>
+										<input type="text" class="form-control money" th:field="*{percentComission}" />
+									</div>
+								</div>								
+							</div>							
+						
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="roomHours">Room Hours</label>
+										<input type="number" class="form-control" th:field="*{roomHours}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="roomAmount">Room Amount</label>
+										<input type="text" class="form-control money" th:field="*{roomAmount}" />
+									</div>									
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="livingHours">Living Room Hours</label>
+										<input type="number" class="form-control" th:field="*{livingHours}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="livingAmount">Living Room Amount</label>
+										<input type="text" class="form-control money" th:field="*{livingAmount}" />
+									</div>									
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="bathroomHours">Bathroom Hours</label>
+										<input type="number" class="form-control" th:field="*{bathroomHours}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="bathroomAmount">Bathroom Amount</label>
+										<input type="text" class="form-control money" th:field="*{bathroomAmount}" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="kitchenHours">Kitchen Hours</label>
+										<input type="number" class="form-control" th:field="*{kitchenHours}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="kitchenAmount">Kitchen Amount</label>
+										<input type="text" class="form-control money" th:field="*{kitchenAmount}" />
+									</div>
+								</div>
+							</div>
+									
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="yardHours">Yard Hours</label>
+										<input type="number" class="form-control" th:field="*{yardHours}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="yardAmount">Yard Amount</label>
+										<input type="text" class="form-control money" th:field="*{yardAmount}" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="othersHours">Others Hours</label>
+										<input type="number" class="form-control" th:field="*{othersHours}" />
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="othersAmount">Others Amount</label>
+										<input type="text" class="form-control money" th:field="*{othersAmount}" />
+									</div>
+								</div>
+							</div>	
+									
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="icon">Icon</label>
+										<select class="form-control" th:field="*{icon}">
+											<option th:each="icon : ${icons}" th:text="${icon.name}" th:value="${icon}" />
+										</select>
+									</div>
+								</div>
+									
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="position">Position</label>
+										<input type="number" class="form-control" th:field="*{position}" />
+									</div>
+								</div>
+							</div><br>
+									
+							<button type="submit" class="btn btn-success">Submit</button>
+																			
+						</form>
+														
+					</div> 
+				</div>
+			</div>
+		</div>
+	</main>
+	<th:block th:fragment="scripts">
+		<script
+			th:src="@{/webjars/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
+		<script>
+      $(document).ready(function() {
+        $('.money').mask("#.##0,00", {reverse: true});
+      })
+    </script>
+	</th:block>
+</body>
+</html>
