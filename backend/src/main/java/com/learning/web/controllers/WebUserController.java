@@ -1,9 +1,7 @@
 package com.learning.web.controllers;
 
 import java.security.Principal;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.learning.core.exceptions.ValidationException;
 import com.learning.web.dtos.ChangePasswordForm;
 import com.learning.web.dtos.FlashMessage;
@@ -39,7 +36,7 @@ public class WebUserController {
     }
     
     @GetMapping("/insert")
-    public ModelAndView cadastrar() {
+    public ModelAndView insert() {
         var modelAndView = new ModelAndView("admin/user/insert-form");
 
         modelAndView.addObject("insertForm", new UserInsertForm());
@@ -48,7 +45,7 @@ public class WebUserController {
     }
 
     @PostMapping("/insert")
-    public String cadastrar(@Valid @ModelAttribute("insertForm") UserInsertForm insertForm, BindingResult result, RedirectAttributes attrs
+    public String insert(@Valid @ModelAttribute("insertForm") UserInsertForm insertForm, BindingResult result, RedirectAttributes attrs
     ) {
         if (result.hasErrors()) {
             return "admin/user/insert-form";
@@ -66,7 +63,7 @@ public class WebUserController {
     }
     
     @GetMapping("/{id}/update")
-    public ModelAndView editar(@PathVariable Long id) {
+    public ModelAndView update(@PathVariable Long id) {
         var modelAndView = new ModelAndView("admin/user/update-form");
 
         modelAndView.addObject("updateForm", webUserService.findById(id));
@@ -75,7 +72,7 @@ public class WebUserController {
     }
 
     @PostMapping("/{id}/update")
-    public String editar(
+    public String update(
         @PathVariable Long id, 
         @Valid @ModelAttribute("updateForm") UserUpdateForm updateForm, 
         BindingResult result, 
@@ -96,8 +93,8 @@ public class WebUserController {
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/{id}/excluir")
-    public String excluir(@PathVariable Long id, RedirectAttributes attrs) {
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes attrs) {
         webUserService.deleteById(id);
         attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User deleted with success!"));
 
@@ -105,7 +102,7 @@ public class WebUserController {
     }
 
     @GetMapping("/change-password")
-    public ModelAndView alterarSenha() {
+    public ModelAndView changePassword() {
         var modelAndView = new ModelAndView("admin/user/update-password");
 
         modelAndView.addObject("changePasswordForm", new ChangePasswordForm());
@@ -114,7 +111,7 @@ public class WebUserController {
     }
 
     @PostMapping("/change-password")
-    public String alterarSenha(
+    public String changePassword(
         @Valid @ModelAttribute("changePasswordForm") ChangePasswordForm changePasswordForm,
         BindingResult result,
         RedirectAttributes atts,

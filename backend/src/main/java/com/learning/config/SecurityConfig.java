@@ -2,22 +2,16 @@ package com.learning.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.learning.core.enums.UserType;
@@ -28,7 +22,7 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
+   
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -93,7 +87,7 @@ public class SecurityConfig {
         @Value("${com.learning.rememberMe.key}")
         private String rememberMeKey;
 
-        @Value("${com.learning.rememberMe.validitySeconds}")
+        @Value("${com.learning.rememberMe.validitySeconds}")        
         private int rememberMeValiditySeconds;
 
         @Override
@@ -104,13 +98,14 @@ public class SecurityConfig {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.requestMatchers(requestMatcherCustomizer ->
+            
+			http.requestMatchers(requestMatcherCustomizer ->
                 requestMatcherCustomizer
                     .antMatchers("/admin/**")
             )
             .authorizeRequests(authorizeRequestsCustomizer ->
                 authorizeRequestsCustomizer
-                    .antMatchers("/admin/resetar-senha/**").permitAll()
+                    .antMatchers("/admin/reset-password/**").permitAll()
                     .anyRequest()
                     .hasAnyAuthority(UserType.ADMIN.name())
             )

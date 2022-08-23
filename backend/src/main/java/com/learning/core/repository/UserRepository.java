@@ -16,15 +16,15 @@ public interface UserRepository extends JpaRepository<User, Long>{
     @Query(
         """
         SELECT
-            AVG(u.reputacao)
+            AVG(u.reputation)
         FROM
-            Usuario u
+            User u
         WHERE
-            u.tipoUsuario = br.com.treinaweb.ediaristas.core.enums.TipoUsuario.DIARISTA
+            u.UserType = com.learning.core.enums.UserType.HOUSEKEEPER
         """
     )
 
-    default Boolean isEmailJaCadastrado(User user) {
+    default Boolean isEmailAlreadyRegistered(User user) {
         if (user.getEmail() == null) {
             return false;
         }
@@ -33,4 +33,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
             .map(userFound -> !userFound.getId().equals(user.getId()))
             .orElse(false);
     }
+    
+    boolean existsByEmail(String email);
 }

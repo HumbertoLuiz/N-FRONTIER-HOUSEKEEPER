@@ -17,11 +17,11 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var mensagem = String.format("User with email %s not found", email);
+        var message = String.format("User with email %s not found", email);
 
         return userRepository.findByEmail(email)
             .map(AuthUser::new)
-            .orElseThrow(() -> new UserNotFoundException(mensagem));
+            .orElseThrow(() -> new UserNotFoundException(message));
     }
     
 }

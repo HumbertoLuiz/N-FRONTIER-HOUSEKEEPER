@@ -16,7 +16,7 @@ import lombok.Getter;
 public class AuthUser implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
+		
 	private User user;
 
     @Override

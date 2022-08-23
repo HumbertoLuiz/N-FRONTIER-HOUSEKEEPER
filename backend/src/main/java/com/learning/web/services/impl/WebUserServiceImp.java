@@ -45,9 +45,9 @@ public class WebUserServiceImp implements WebUserService {
 
         var model = webUserMapper.toModel(form);
 
-        //var senhaHash = passwordEncoder.encode(model.getSenha());
+        var passwordHash = passwordEncoder.encode(model.getPassword());
 
-        //model.setSenha(senhaHash);
+        model.setPassword(passwordHash);
         model.setUserType(UserType.ADMIN);
 
         validator.validate(model);

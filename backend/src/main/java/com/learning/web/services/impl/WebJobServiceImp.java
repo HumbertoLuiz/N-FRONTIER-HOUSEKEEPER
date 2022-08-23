@@ -31,28 +31,28 @@ public class WebJobServiceImp implements WebJobService {
 	}
 
 	public Job findById(Long id) {
-		var servicoEncotrado = jobRepository.findById(id);
+		var jobFound = jobRepository.findById(id);
 
-		if (servicoEncotrado.isPresent()) {
-			return servicoEncotrado.get();
+		if (jobFound.isPresent()) {
+			return jobFound.get();
 		}
 
-		var mensagem = String.format("Service with ID %d not found", id);
-		throw new ServiceNotFoundException(mensagem);
+		var message = String.format("Service with ID %d not found", id);
+		throw new ServiceNotFoundException(message);
 	}
 
 	public Job update(JobForm form, Long id) {
-		var servicoEncotrado = findById(id);
+		var jobFound = findById(id);
 
 		var model = webJobMapper.toModel(form);
-		((Job) model).setId(servicoEncotrado.getId());
+		((Job) model).setId(jobFound.getId());
 
 		return jobRepository.save(model);
 	}
 
 	public void deleteById(Long id) {
-		var servicoEncotrado = findById(id);
+		var jobFound = findById(id);
 
-		jobRepository.delete(servicoEncotrado);
+		jobRepository.delete(jobFound);
 	}
 }
