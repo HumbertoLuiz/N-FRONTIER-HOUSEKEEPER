@@ -1,8 +1,9 @@
-# Projeto Housekeeper
+# Housekeeper Project
 
-Projeto da imersão Multi Stack [TreinaWeb](http://treinaweb.com.br/), desenvolvido modificando conteúdo para fim de aprendizado, utilizando Java e Spring Boot. 
+This project is from the [TreinaWeb](http://treinaweb.com.br/) Multi Stack immersion course, developed by modifying content for learning purposes, using Java and Spring Boot.
 
-## Dependências do Projeto
+
+## Project Dependencies
 
 - Spring Boot
 - Spring Web MVC
@@ -10,34 +11,34 @@ Projeto da imersão Multi Stack [TreinaWeb](http://treinaweb.com.br/), desenvolv
 - Spring Data JPA
 - Bean Validation
 
-## Dependências de Desenvolvimento
+## Development Dependencies
 
 - Spring Boot Devtools
 - Lombok
 
-## Requisitos
+## requirements
 
 - Java 17
 - Maven 3.8
 
-## Como testar esse projeto na minha máquina?
+## How to test this project on my computer?
 
-Clone este repositório e entre na pasta do projeto.
+Clone this repository and enter the folder project.
 
 ```sh
 git clone https://github.com/HumbertoLuiz/housekeeper-spring.git
 cd housekeeper-spring
 ```
 
-Atualize as configurações de acesso ao banco de dados no arquivo [application.properties](src/main/resources/application.properties).
+Update Access configurations data base file [application.properties](src/main/resources/application.properties).
 
 ```properties
-spring.datasource.url=jdbc:mysql://host:porta/banco_de_dados
-spring.datasource.username=usuario
-spring.datasource.password=senha
+spring.datasource.url=jdbc:mysql://host:port/data_base_name
+spring.datasource.username=your_user
+spring.datasource.password=password
 ```
 
-Execute o projeto através do Maven.
+run through Maven.
 
 ```sh
 mvn spring-boot:run
