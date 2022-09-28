@@ -35,7 +35,7 @@ Update Access configurations data base file [application.properties](src/main/re
 ```properties
 spring.datasource.url=jdbc:mysql://host:port/data_base_name
 spring.datasource.username=your_user
-spring.datasource.password=password
+spring.datasource.password=your_password
 ```
 
 run through Maven.
