@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FlashMessage {
     
-    private String classeCss;
+
+	private String classeCss;
 
     private String mensagem;
 

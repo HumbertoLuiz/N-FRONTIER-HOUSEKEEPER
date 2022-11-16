@@ -85,6 +85,6 @@ public class Job {
 	private Icon icon;
 	
 	@Column(nullable = false)
-	private Integer position;	
+	private Integer position;
 	
 }

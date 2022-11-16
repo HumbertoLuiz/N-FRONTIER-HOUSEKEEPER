@@ -1,8 +1,6 @@
 package com.learning.web.mappers;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
 import com.learning.core.models.Job;
 import com.learning.web.dtos.JobForm;
 

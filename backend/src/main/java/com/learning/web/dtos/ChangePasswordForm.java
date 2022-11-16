@@ -3,9 +3,7 @@ package com.learning.web.dtos;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
 import com.learning.web.interfaces.IConfirmPassword;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +24,5 @@ public class ChangePasswordForm implements IConfirmPassword {
     @NotNull
     @NotEmpty
     private String confirmPassword;
-    
+
 }

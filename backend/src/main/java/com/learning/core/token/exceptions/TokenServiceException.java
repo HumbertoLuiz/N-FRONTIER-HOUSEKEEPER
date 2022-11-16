@@ -1,4 +1,4 @@
-package com.learning.core.services.token.exceptions;
+package com.learning.core.token.exceptions;
 
 public class TokenServiceException extends RuntimeException {
 
