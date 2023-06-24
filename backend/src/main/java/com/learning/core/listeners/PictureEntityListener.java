@@ -1,10 +1,8 @@
 package com.learning.core.listeners;
 
-import javax.persistence.PreRemove;
-
+import jakarta.persistence.PreRemove;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.learning.core.models.Picture;
 import com.learning.core.services.storage.adapters.StorageService;
 

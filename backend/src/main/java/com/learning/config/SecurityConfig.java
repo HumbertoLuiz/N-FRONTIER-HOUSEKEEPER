@@ -8,99 +8,149 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.learning.core.enums.UserType;
+import com.learning.core.filters.AccessTokenRequestFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class SecurityConfig {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-			throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
-	@Order(1)
-	@Bean
-	public SecurityFilterChain apiSecurityConfig(HttpSecurity http) throws Exception {
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
-//        @Autowired
-//        private AccessTokenRequestFilter accessTokenRequestFilter;
+    @Order(1)
+    @Configuration
+    public class ApiSecurityConfig {
+
+        @Autowired
+        private AccessTokenRequestFilter accessTokenRequestFilter;
+
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        }
+
+        @Bean
+        AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+            return authenticationConfiguration.getAuthenticationManager();
+        }
+
+        @Bean
+        SecurityFilterChain configure(HttpSecurity http) throws Exception {
+
+//            http.securityMatchers(securityMatchersCustomizer -> securityMatchersCustomizer
+//                .requestMatchers("/api/**", "/auth/**"));
+
+            http.authorizeHttpRequests(
+                authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
+                    .anyRequest().permitAll());
+
+//            http.authorizeHttpRequests(
+//                authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
+//                    .requestMatchers("/uploads").permitAll()
+//                    .requestMatchers("/api/**").permitAll()
+//                    .requestMatchers("/auth/**").permitAll()
+//                    .requestMatchers("/admin/**").hasAuthority(UserType.ADMIN.toString())
+//                    .anyRequest().permitAll());
 //
-//        @Autowired
-//        private AuthenticationEntryPoint authenticationEntryPoint;
+//            http.formLogin(formLoginCustomizer -> formLoginCustomizer
+//                .loginPage("/admin/login")
+//                .usernameParameter("email")
+//                .passwordParameter("password")
+//                .defaultSuccessUrl("/admin/jobs")
+//                .permitAll());
 //
-//        @Autowired
-//        private AccessDeniedHandler accessDeniedHandler;
+//            http.logout(logoutCustomizer -> logoutCustomizer
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout", "GET"))
+//                .logoutSuccessUrl("/admin/login"));
 
-		http.requestMatchers(requestMatcherCustomizer -> requestMatcherCustomizer.antMatchers("/api/**", "/auth/**"))
-				.authorizeRequests(authorizeRequestsCustomizer -> authorizeRequestsCustomizer.anyRequest().permitAll())
-				.csrf(csrfCustomizer -> csrfCustomizer.disable())
-				.sessionManagement(sessionManagementCustomizer -> sessionManagementCustomizer
-						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//          .addFilterBefore(accessTokenRequestFilter, UsernamePasswordAuthenticationFilter.class)
-//          .exceptionHandling(exceptionHandlingCustomizer ->
-//              exceptionHandlingCustomizer
-//                 .authenticationEntryPoint(authenticationEntryPoint)
-//                 .accessDeniedHandler(accessDeniedHandler)
-//          )
-				.cors();
+            http.sessionManagement(sessionManagementCustomizer -> sessionManagementCustomizer
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-		return http.build();
-	}
+            http.addFilterBefore(accessTokenRequestFilter,
+                UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
+                    .authenticationEntryPoint(authenticationEntryPoint)
+                    .accessDeniedHandler(accessDeniedHandler));
 
-	@Value("${com.learning.rememberMe.key}")
-	private String rememberMeKey;
+            http.csrf(AbstractHttpConfigurer::disable);
+            http.cors(AbstractHttpConfigurer::disable);
 
-	@Value("${com.learning.rememberMe.validitySeconds}")
-	private int rememberMeValiditySeconds;
+            return http.build();
+        }
+    }
 
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-	}
 
-	@Order(2)
-	@Bean
-	public SecurityFilterChain WebSecurityConfig(HttpSecurity http) throws Exception {
+    @Order(2)
+    @Configuration
+    public class WebSecurityConfig {
 
-		http.requestMatchers(requestMatcherCustomizer -> requestMatcherCustomizer.antMatchers("/admin/**"))
-				.authorizeRequests(authorizeRequestsCustomizer -> authorizeRequestsCustomizer.antMatchers("/api/**")
-						.permitAll().antMatchers("/admin/reset-password/**").permitAll().anyRequest()
-						.hasAnyAuthority(UserType.ADMIN.name()))
-				.formLogin(
-						formLoginCustomizer -> formLoginCustomizer.loginPage("/admin/login").usernameParameter("email")
-								.passwordParameter("password").defaultSuccessUrl("/admin/jobs").permitAll())
-				.logout(logoutCustomizer -> logoutCustomizer
-						.logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout", "GET"))
-						.logoutSuccessUrl("/admin/login"))
-				.rememberMe(rememberMeCustomizer -> rememberMeCustomizer.rememberMeParameter("remember-me")
-						.tokenValiditySeconds(rememberMeValiditySeconds).key(rememberMeKey))
-				.exceptionHandling(
-						exceptionHandlingCustomizer -> exceptionHandlingCustomizer.accessDeniedPage("/admin/login"));
+        @Value("${com.learning.rememberMe.key}")
+        private String rememberMeKey;
 
-		return http.build();
-	}
+        @Value("${com.learning.rememberMe.validitySeconds}")
+        private int rememberMeValiditySeconds;
 
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/img/**", "/js/**", "/webjars/**");
-	}
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        }
 
+        protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+
+            http.authorizeHttpRequests(
+                requestMatcherCustomizer -> requestMatcherCustomizer.requestMatchers("/admin/**"))
+                .authorizeHttpRequests(authorizeRequestsCustomizer -> authorizeRequestsCustomizer
+                    .requestMatchers("/admin/**")
+                    .permitAll().requestMatchers("/admin/reset-password/**").permitAll()
+                    .anyRequest()
+                    .hasAuthority(UserType.ADMIN.name()))
+                .formLogin(
+                    formLoginCustomizer -> formLoginCustomizer.loginPage("/admin/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password").defaultSuccessUrl("/admin/jobs").permitAll())
+                .logout(logoutCustomizer -> logoutCustomizer
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout", "GET"))
+                    .logoutSuccessUrl("/admin/login"))
+                .rememberMe(
+                    rememberMeCustomizer -> rememberMeCustomizer.rememberMeParameter("remember-me")
+                        .tokenValiditySeconds(rememberMeValiditySeconds).key(rememberMeKey))
+                .exceptionHandling(
+                    exceptionHandlingCustomizer -> exceptionHandlingCustomizer
+                        .accessDeniedPage("/admin/login"));
+
+            return http.build();
+        }
+
+        @Bean
+        WebSecurityCustomizer webSecurityCustomizer() {
+            return web -> web
+                .ignoring()
+                .requestMatchers("/img/**", "/js/**", "/webjars/**");
+        }
+
+    }
 }

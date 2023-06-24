@@ -13,26 +13,21 @@ import com.learning.core.services.checkaddress.exceptions.AddressServiceExceptio
 @Service
 public class ViaCepService implements AddressService {
 
-    private static final String URL_TEMPLATE = "http://viacep.com.br/ws/{cep}/json/";
-    private final RestTemplate restTemplate = new RestTemplate();
-	
+	private static final String URL_TEMPLATE = "http://viacep.com.br/ws/{cep}/json/";
+	private final RestTemplate restTemplate = new RestTemplate();
+
 	@Override
-	public AddressResponse findAddressByCep(String cep) throws AddressServiceException {
+	public AddressResponse findAddressByZipcode(String zipcode) throws AddressServiceException {
 		var url = UriComponentsBuilder.fromUriString(URL_TEMPLATE)
-			.buildAndExpand(cep)
-			.toString();
-		
+				.buildAndExpand(zipcode)
+				.toString();
+
 		ResponseEntity<AddressResponse> response;
 		try {
 			response = restTemplate.getForEntity(url, AddressResponse.class);
-		}catch(HttpClientErrorException.BadRequest e) {
+		} catch (HttpClientErrorException.BadRequest e) {
 			throw new AddressServiceException("The zip code entered is not valid");
 		}
-		
-		if (response.getBody().getCep() == null) {
-			throw new AddressServiceException("the zip code entered not found");
-		}
-		
 		return response.getBody();
 	}
 

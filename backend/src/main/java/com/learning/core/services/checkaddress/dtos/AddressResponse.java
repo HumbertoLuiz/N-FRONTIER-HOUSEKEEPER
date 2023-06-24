@@ -9,18 +9,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddressResponse {
 
-    private String cep;
+	private String zipcode;
 
-    private String logradouro;
+	private String address;
 
-    private String complemento;
+	private String complement;
 
-    private String bairro;
+	private String neighborhood;
 
-    private String localidade;
+	private String lacation;
 
-    private String uf;
+	private String state;
 
-    private String ibge;
+	private String ibge;
 
 }

@@ -1,6 +1,6 @@
 package com.learning.web.controllers;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -36,7 +36,7 @@ public class ResetPasswordController {
 
     @PostMapping
     public String resetPassword(@ModelAttribute ResetPasswordForm form, RedirectAttributes attrs) {
-        //service.solictarResetDeSenha(form);
+        
         attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Verifique o seu e-mail para ter acesso ao link de reset de senha"));
         return "redirect:/admin/reset-password";
     }

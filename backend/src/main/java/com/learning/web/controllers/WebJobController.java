@@ -1,7 +1,6 @@
 package com.learning.web.controllers;
 
-import javax.validation.Valid;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.learning.core.enums.Icon;
 import com.learning.web.dtos.FlashMessage;
 import com.learning.web.dtos.JobForm;
@@ -24,7 +22,7 @@ public class WebJobController {
 
 	@Autowired
 	private WebJobService webJobService;
-	
+
     @GetMapping
     public ModelAndView findAll() {
         var modelAndView = new ModelAndView("/admin/job/list");
@@ -58,7 +56,7 @@ public class WebJobController {
     @GetMapping("/{id}/update")
     public ModelAndView update(@PathVariable Long id) {
         var modelAndView = new ModelAndView("/admin/job/form");
-        
+
         modelAndView.addObject("form", webJobService.findById(id));
 
         return modelAndView;
@@ -69,7 +67,7 @@ public class WebJobController {
         if (result.hasErrors()) {
             return "admin/job/form";
         }
-        
+
         webJobService.update(form, id);
         attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Service edited with success!"));
 

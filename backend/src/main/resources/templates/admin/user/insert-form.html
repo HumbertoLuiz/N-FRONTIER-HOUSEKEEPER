@@ -53,13 +53,16 @@
 
                 <div class="col-md-6 col-sm-12">
                   <div class="form-group">
-                    <label for="comfirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" th:field="*{comfirmPassword}">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" class="form-control" th:field="*{confirmPassword}">
                     <ul>
-                      <li class="text-danger" th:each="erro : ${#fields.errors('comfirmPassword')}" th:text="${erro}"></li>
+                      <li class="text-danger" th:each="erro : ${#fields.errors('confirmPassword')}" th:text="${erro}"></li>
                     </ul>
                   </div>
                 </div>
+                					<button type="submit" class="btn btn-success"
+								style="background-color: #007bff; border: none;">Submit</button>
+					
               </div>
 
               <button type="submit" class="btn btn-success">Submit</button>

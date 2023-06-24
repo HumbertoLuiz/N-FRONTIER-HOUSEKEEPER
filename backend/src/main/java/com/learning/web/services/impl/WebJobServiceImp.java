@@ -1,10 +1,8 @@
 package com.learning.web.services.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.learning.core.exceptions.ServiceNotFoundException;
 import com.learning.core.models.Job;
 import com.learning.core.repository.JobRepository;
@@ -17,7 +15,7 @@ public class WebJobServiceImp implements WebJobService {
 
 	@Autowired
 	private JobRepository jobRepository;
-	
+
 	@Autowired
 	private WebJobMapper webJobMapper;
 

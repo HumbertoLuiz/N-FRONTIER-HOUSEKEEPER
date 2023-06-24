@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head></head>
+<body>
+	<main>
+		<div>
+			<div>
+				<div>
+					<div marginwidth="0" marginheight="0" style="padding: 0">
+						<div dir="ltr"
+							style="background-color: #f7f7f7; margin: 0; padding: 70px 0; width: 100%">
+							<table
+								style="border: 0; padding: 0; gap: 0; height: 100%; width: 100%">
+								<tbody>
+									<tr>
+										<td align="center" valign="top">
+											<div></div>
+											<table
+												style="border: 0; padding: 0; gap: 0; width: 600; background-color: #ffffff; border: 1px solid #dedede; border-radius: 3px">
+												<tbody>
+													<tr>
+														<td align="center" valign="top">
+															<table
+																style="border: 0; padding: 0; gap: 0; width: 100%; background-color: #3279e0; color: #ffffff; border-bottom: 0; font-weight: bold; line-height: 100%; vertical-align: middle; font-family: Helvetica Neue, Helvetica, Roboto, Arial, sans-serif; border-radius: 3px 3px 0 0">
+																<tbody>
+																	<tr>
+																		<td style="padding: 36px 48px; display: block">
+																			<h1
+																				style="font-family: Helvetica Neue, Helvetica, Roboto, Arial, sans-serif; font-size: 30px; font-weight: 300; line-height: 150%; margin: 0; text-align: left; color: #ffffff">
+																				Hi <span th:text="${name}"></span> be very welcome
+																				to E-diaristas.
+																			</h1>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+													</tr>
+													<tr>
+														<td align="center" valign="top">
+															<table style="border: 0; padding: 0; gap: 0; width: 600">
+																<tbody>
+																	<tr>
+																		<td valign="top" style="background-color: #ffffff">
+																			<table
+																				style="border: 0; padding: 20; gap: 0; width: 100%">
+																				<tbody>
+																					<tr>
+																						<td valign="top" style="padding: 48px 48px 32px">
+																							<div
+																								style="color: #ababab; font-family: Helvetica Neue, Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 150%; text-align: left">
+
+																								<th:block th:if="${userType == 'CUSTOMER'}">
+																									<p style="gap: 0 0 16px">Your daily rate
+																										has already been sent to the day laborers in
+																										your region. Stay tuned, soon we will confirm
+																										the professional who will serve you.</p>
+																									<p style="gap: 0 0 16px">You can rest
+																										assured, if no professional accepts your
+																										service up to 24 hours before the date of
+																										scheduling we cancel your daily and release
+																										your release the balance on your credit card.</p>
+																								</th:block>
+																								<th:block th:if="${userType == 'HOUSEKEEPER'}">
+																									<p style="gap: 0 0 16px">Stay tuned, as
+																										soon as we have a daily rate in your region we
+																										will let you know!</p>
+																									<p style="gap: 0 0 16px">You can choose
+																										and apply for as many per diems as you think
+																										necessary.</p>
+																								</th:block>
+																							</div>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td align="center" valign="top">
+											<table style="border: 0; padding: 10; gap: 0; width: 600">
+												<tbody>
+													<tr>
+														<td valign="top" style="padding: 0; border-radius: 6px">
+															<table
+																style="border: 0; padding: 10; gap: 0; width: 100%">
+																<tbody>
+																	<tr>
+																		<td colspan="2" valign="middle"
+																			style="border-radius: 6px; border: 0; color: #c0c0c0; font-family: Helvetica Neue, Helvetica, Roboto, Arial, sans-serif; font-size: 12px; line-height: 150%; text-align: center; padding: 24px 0">
+																			<p style="margin: 0 0 16px">E-Diaristas – Thank
+																				you</p>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

@@ -1,7 +1,7 @@
 package com.learning.web.controllers;
 
 import java.security.Principal;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.learning.core.exceptions.ValidationException;
+import com.learning.core.exceptions.ValidatingException;
 import com.learning.web.dtos.ChangePasswordForm;
 import com.learning.web.dtos.FlashMessage;
 import com.learning.web.dtos.UserInsertForm;
@@ -25,7 +25,7 @@ public class WebUserController {
 
 	@Autowired
 	private WebUserService webUserService;
-	
+
     @GetMapping
     public ModelAndView findAll() {
         var modelAndView = new ModelAndView("/admin/user/list");
@@ -34,7 +34,7 @@ public class WebUserController {
 
         return modelAndView;
     }
-    
+
     @GetMapping("/insert")
     public ModelAndView insert() {
         var modelAndView = new ModelAndView("admin/user/insert-form");
@@ -54,14 +54,14 @@ public class WebUserController {
         try {
             webUserService.insert(insertForm);
             attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User registered with success!"));
-        } catch (ValidationException e) {
+        } catch (ValidatingException e) {
             result.addError(e.getFieldError());
             return "admin/user/insert-form";
         }
 
         return "redirect:/admin/users";
     }
-    
+
     @GetMapping("/{id}/update")
     public ModelAndView update(@PathVariable Long id) {
         var modelAndView = new ModelAndView("admin/user/update-form");
@@ -73,9 +73,9 @@ public class WebUserController {
 
     @PostMapping("/{id}/update")
     public String update(
-        @PathVariable Long id, 
-        @Valid @ModelAttribute("updateForm") UserUpdateForm updateForm, 
-        BindingResult result, 
+        @PathVariable Long id,
+        @Valid @ModelAttribute("updateForm") UserUpdateForm updateForm,
+        BindingResult result,
         RedirectAttributes attrs
     ) {
         if  (result.hasErrors()) {
@@ -85,7 +85,7 @@ public class WebUserController {
         try {
             webUserService.update(updateForm, id);
             attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User updated with success!"));
-        } catch (ValidationException e) {
+        } catch (ValidatingException e) {
             result.addError(e.getFieldError());
             return "admin/user/update-form";
         }
@@ -124,7 +124,7 @@ public class WebUserController {
         try {
             webUserService.changePassword(changePasswordForm, principal.getName());
             atts.addFlashAttribute("alert", new FlashMessage("alert-success", "Password changed with success!"));
-        } catch (ValidationException e) {
+        } catch (ValidatingException e) {
             result.addError(e.getFieldError());
             return "admin/user/change-password";
         }

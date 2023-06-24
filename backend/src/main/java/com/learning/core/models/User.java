@@ -3,22 +3,21 @@ package com.learning.core.models;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-
 import com.learning.core.enums.UserType;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,7 +50,7 @@ public class User {
     @Column(length = 11, nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
-    
+
     @Column(nullable = true, unique = true, length = 11)
     private String cpf;
 
@@ -74,7 +73,7 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "user_picture", nullable = true)
     private Picture userPicture;
-    
+
     @ManyToMany
     @JoinTable(
         name = "cities_attended_users",
@@ -87,11 +86,11 @@ public class User {
     @JoinColumn(name = "address_id", nullable = true)
     private HousekeeperAddress address;
 
-//    public Boolean isHousekeeper() {
-//        return UserType.equals(UserType.HOUSEKEEPER);
-//    }
-//
-//    public Boolean isCustomer() {
-//        return UserType.equals(UserType.CUSTOMER);
-//    }
+    public Boolean isHousekeeper() {
+        return userType.equals(UserType.HOUSEKEEPER);
+    }
+
+    public Boolean isCustomer() {
+        return userType.equals(UserType.CUSTOMER);
+    }
 }

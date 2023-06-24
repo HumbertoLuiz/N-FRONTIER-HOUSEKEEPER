@@ -1,9 +1,11 @@
 package com.learning.web.dtos;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+import com.learning.web.interfaces.IConfirmPassword;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInsertForm {
+public class UserInsertForm implements IConfirmPassword {
 
     @NotNull
     @Size(min = 3, max = 255)
@@ -29,6 +31,7 @@ public class UserInsertForm {
 
     @NotNull
     @NotEmpty
-    private String comfirmPassword;
-    
+    private String confirmPassword;
+
+
 }

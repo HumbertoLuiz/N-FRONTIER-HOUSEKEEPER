@@ -2,9 +2,9 @@ package com.learning.core.enums;
 
 public enum Icon {
 
-	TWF_CLEANING_1("twf_cleaning_1"),
-	TWF_CLEANING_2("twf_cleaning_2"),
-	TWF_CLEANING_3("twf_cleaning_3");
+	HL_CLEANING_1("hl_cleaning_1"),
+	HL_CLEANING_2("hl_cleaning_2"),
+	HL_CLEANING_3("hl_cleaning_3");
 	
 	private String name;
 	

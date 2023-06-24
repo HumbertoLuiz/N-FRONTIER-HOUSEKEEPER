@@ -1,40 +1,57 @@
 package com.learning.core.repository;
 
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+
 import com.learning.core.models.User;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
+    Optional<User> findByCpf(String cpf);
+
+    Optional<User> findByKeyPix(String keyPix);
+
     Page<User> findByCitiesAttendedIbgeCode(String ibgeCode, Pageable pageable);
-    
-    @Query(
-        """
+
+    Boolean existsByCitiesAttendedIbgeCode(String ibgeCode);
+
+    @Query("""
         SELECT
             AVG(u.reputation)
         FROM
             User u
         WHERE
-            u.UserType = com.learning.core.enums.UserType.HOUSEKEEPER
-        """
-    )
+            u.userType = com.learning.core.enums.UserType.HOUSEKEEPER
+        """)
+    Double getHousekeeperAverageReputation();
 
     default Boolean isEmailAlreadyRegistered(User user) {
-        if (user.getEmail() == null) {
-            return false;
-        }
-
+        if (user.getEmail() == null) { return false; }
         return findByEmail(user.getEmail())
             .map(userFound -> !userFound.getId().equals(user.getId()))
             .orElse(false);
     }
-    
+
+    default Boolean isCpfAlreadyRegistered(User user) {
+        if (user.getCpf() == null) { return false; }
+        return findByCpf(user.getCpf())
+            .map(userFound -> !userFound.getId().equals(user.getId()))
+            .orElse(false);
+    }
+
+    default Boolean isKeyPixAlreadyRegistered(User user) {
+        if (user.getKeyPix() == null) { return false; }
+        return findByKeyPix(user.getKeyPix())
+            .map(userFound -> !userFound.getId().equals(user.getId()))
+            .orElse(false);
+    }
+
     boolean existsByEmail(String email);
+
 }

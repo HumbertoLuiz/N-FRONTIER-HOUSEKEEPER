@@ -1,6 +1,6 @@
 package com.learning.web.services;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.learning.web.dtos.ResetConfirmPasswordForm;
 

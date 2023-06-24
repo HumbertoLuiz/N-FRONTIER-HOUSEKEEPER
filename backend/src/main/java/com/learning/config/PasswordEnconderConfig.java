@@ -9,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class PasswordEnconderConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
 }
