@@ -1,28 +1,28 @@
-// package com.learning.core.services;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
+package com.learning.core.services;
 
-// import com.learning.core.exceptions.TokenNaBlackListException;
-// import com.learning.core.repository.TokenBlackListRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-// @Service
-// public class TokenBlackListService {
+import com.learning.core.exceptions.TokenBlackListException;
+import com.learning.core.models.TokenBlackList;
+import com.learning.core.repository.TokenBlackListRepository;
 
-//    @Autowired
-//    private TokenBlackListRepository repository;
+@Service
+public class TokenBlackListService {
 
-//    public void checkToken(String token) {
-//        if (repository.existsByToken(token)) {
-//            throw new TokenNaBlackListException();
-//        }
-//    }
+    @Autowired
+    private TokenBlackListRepository repository;
 
-//    public void colocarTokenNaBlackList(String token) {
-//        if (!repository.existsByToken(token)) {
-//            var tokenBlackList = new TokenBlackList();
-//            tokenBlackList.setToken(token);
-//            repository.save(tokenBlackList);
-//        }
-//    }
+    public void checkToken(String token) {
+        if (repository.existsByToken(token)) { throw new TokenBlackListException(); }
+    }
 
-// }
+    public void putTokenOnBlackList(String token) {
+        if (!repository.existsByToken(token)) {
+            var tokenBlackList= new TokenBlackList();
+            tokenBlackList.setToken(token);
+            repository.save(tokenBlackList);
+        }
+    }
+
+}

@@ -16,8 +16,6 @@ public interface WebUserMapper {
 
     User toModel(UserUpdateForm form);
 
-    UserUpdateForm toForm(User model);
-    
-    
+    UserUpdateForm toForm(User model);    
     
 }

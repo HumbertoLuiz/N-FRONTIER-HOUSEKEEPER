@@ -26,109 +26,96 @@ public class WebUserController {
 	@Autowired
 	private WebUserService webUserService;
 
-    @GetMapping
-    public ModelAndView findAll() {
-        var modelAndView = new ModelAndView("/admin/user/list");
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        modelAndView.addObject("users", webUserService.findAll());
+	@GetMapping
+	public ModelAndView findAll() {
+		var modelAndView = new ModelAndView("/admin/user/list");
+		modelAndView.addObject("users", webUserService.findAll());
+		return modelAndView;
+	}
 
-        return modelAndView;
-    }
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    @GetMapping("/insert")
-    public ModelAndView insert() {
-        var modelAndView = new ModelAndView("admin/user/insert-form");
+	@GetMapping("/insert")
+	public ModelAndView insert() {
+		var modelAndView = new ModelAndView("admin/user/insert-form");
+		modelAndView.addObject("insertForm", new UserInsertForm());
+		return modelAndView;
+	}
 
-        modelAndView.addObject("insertForm", new UserInsertForm());
+	@PostMapping("/insert")
+	public String insert(@Valid @ModelAttribute("insertForm") UserInsertForm insertForm, BindingResult result,
+			RedirectAttributes attrs) {
+		if (result.hasErrors()) {
+			return "admin/user/insert-form";
+		}
+		try {
+			webUserService.insert(insertForm);
+			attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User registered with success!"));
+		} catch (ValidatingException e) {
+			result.addError(e.getFieldError());
+			return "admin/user/insert-form";
+		}
+		return "redirect:/admin/users";
+	}
 
-        return modelAndView;
-    }
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    @PostMapping("/insert")
-    public String insert(@Valid @ModelAttribute("insertForm") UserInsertForm insertForm, BindingResult result, RedirectAttributes attrs
-    ) {
-        if (result.hasErrors()) {
-            return "admin/user/insert-form";
-        }
+	@GetMapping("/{id}/update")
+	public ModelAndView update(@PathVariable Long id) {
+		var modelAndView = new ModelAndView("admin/user/update-form");
+		modelAndView.addObject("updateForm", webUserService.findById(id));
+		return modelAndView;
+	}
 
-        try {
-            webUserService.insert(insertForm);
-            attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User registered with success!"));
-        } catch (ValidatingException e) {
-            result.addError(e.getFieldError());
-            return "admin/user/insert-form";
-        }
+	@PostMapping("/{id}/update")
+	public String update(@PathVariable Long id, @Valid @ModelAttribute("updateForm") UserUpdateForm updateForm,
+			BindingResult result, RedirectAttributes attrs) {
+		if (result.hasErrors()) {
+			return "admin/user/update-form";
+		}
+		try {
+			webUserService.update(updateForm, id);
+			attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User updated with success!"));
+		} catch (ValidatingException e) {
+			result.addError(e.getFieldError());
+			return "admin/user/update-form";
+		}
+		return "redirect:/admin/users";
+	}
 
-        return "redirect:/admin/users";
-    }
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    @GetMapping("/{id}/update")
-    public ModelAndView update(@PathVariable Long id) {
-        var modelAndView = new ModelAndView("admin/user/update-form");
+	@GetMapping("/{id}/delete")
+	public String delete(@PathVariable Long id, RedirectAttributes attrs) {
+		webUserService.deleteById(id);
+		attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User deleted with success!"));
+		return "redirect:/admin/users";
+	}
 
-        modelAndView.addObject("updateForm", webUserService.findById(id));
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        return modelAndView;
-    }
+	@GetMapping("/change-password")
+	public ModelAndView changePassword() {
+		var modelAndView = new ModelAndView("admin/user/update-password");
+		modelAndView.addObject("changePasswordForm", new ChangePasswordForm());
+		return modelAndView;
+	}
 
-    @PostMapping("/{id}/update")
-    public String update(
-        @PathVariable Long id,
-        @Valid @ModelAttribute("updateForm") UserUpdateForm updateForm,
-        BindingResult result,
-        RedirectAttributes attrs
-    ) {
-        if  (result.hasErrors()) {
-            return "admin/user/update-form";
-        }
-
-        try {
-            webUserService.update(updateForm, id);
-            attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User updated with success!"));
-        } catch (ValidatingException e) {
-            result.addError(e.getFieldError());
-            return "admin/user/update-form";
-        }
-
-        return "redirect:/admin/users";
-    }
-
-    @GetMapping("/{id}/delete")
-    public String delete(@PathVariable Long id, RedirectAttributes attrs) {
-        webUserService.deleteById(id);
-        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "User deleted with success!"));
-
-        return "redirect:/admin/users";
-    }
-
-    @GetMapping("/change-password")
-    public ModelAndView changePassword() {
-        var modelAndView = new ModelAndView("admin/user/update-password");
-
-        modelAndView.addObject("changePasswordForm", new ChangePasswordForm());
-
-        return modelAndView;
-    }
-
-    @PostMapping("/change-password")
-    public String changePassword(
-        @Valid @ModelAttribute("changePasswordForm") ChangePasswordForm changePasswordForm,
-        BindingResult result,
-        RedirectAttributes atts,
-        Principal principal
-    ) {
-        if (result.hasErrors()) {
-            return "admin/user/change-password";
-        }
-
-        try {
-            webUserService.changePassword(changePasswordForm, principal.getName());
-            atts.addFlashAttribute("alert", new FlashMessage("alert-success", "Password changed with success!"));
-        } catch (ValidatingException e) {
-            result.addError(e.getFieldError());
-            return "admin/user/change-password";
-        }
-
-        return "redirect:/admin/users/change-password";
-    }
+	@PostMapping("/change-password")
+	public String changePassword(@Valid @ModelAttribute("changePasswordForm") ChangePasswordForm changePasswordForm,
+			BindingResult result, RedirectAttributes atts, Principal principal) {
+		if (result.hasErrors()) {
+			return "admin/user/change-password";
+		}
+		try {
+			webUserService.changePassword(changePasswordForm, principal.getName());
+			atts.addFlashAttribute("alert", new FlashMessage("alert-success", "Password changed with success!"));
+		} catch (ValidatingException e) {
+			result.addError(e.getFieldError());
+			return "admin/user/change-password";
+		}
+		return "redirect:/admin/users/change-password";
+	}
 }

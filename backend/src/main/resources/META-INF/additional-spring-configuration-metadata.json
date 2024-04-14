@@ -1,0 +1,62 @@
+{"properties": [
+  {
+    "name": "com.learning.access.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.access.expiration'"
+  },
+  {
+    "name": "com.learning.access.key",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.access.key'"
+  },
+  {
+    "name": "com.learning.rememberMe.validitySeconds",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.validitySeconds'"
+  },
+  {
+    "name": "com.learning.rememberMe.key",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.key'"
+  },
+  {
+    "name": "com.learning.refresh.key",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.refresh.key'"
+  },
+  {
+    "name": "com.learning.refresh.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.refresh.expiration'"
+  },
+  {
+    "name": "com.learning.rememberMe.key",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.key'"
+  },
+  {
+    "name": "com.learning.rememberMe.validitySeconds",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.validitySeconds'"
+  },
+  {
+    "name": "com.learning.rememberMe.key",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.key'"
+  },
+  {
+    "name": "com.learning.rememberMe.validitySeconds",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.validitySeconds'"
+  },
+  {
+    "name": "com.learning.rememberMe.validitySeconds",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.validitySeconds'"
+  },
+  {
+    "name": "com.learning.rememberMe.key",
+    "type": "java.lang.String",
+    "description": "A description for 'com.learning.rememberMe.key'"
+  }
+]}

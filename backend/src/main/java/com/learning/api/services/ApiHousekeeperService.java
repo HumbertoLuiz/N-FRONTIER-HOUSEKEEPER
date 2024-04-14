@@ -1,59 +1,62 @@
-// package com.learning.api.services;
+package com.learning.api.services;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.data.domain.PageRequest;
-// import org.springframework.data.domain.Sort;
-// import org.springframework.stereotype.Service;
-// import com.learning.api.dtos.responses.AvailabilityResponse;
-// import com.learning.api.dtos.responses.HousekeeperLocationPagedResponse;
-// import com.learning.api.mappers.ApiHousekeeperMapper;
-// import com.learning.core.models.User;
-// import com.learning.core.repository.UserRepository;
-// import com.learning.core.services.checkaddress.adapters.AddressService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-// @Service
-// public class ApiHousekeeperService {
+import com.learning.api.dtos.responses.AvailabilityResponse;
+import com.learning.api.dtos.responses.HousekeeperLocationPagedResponse;
+import com.learning.api.mappers.ApiHousekeeperMapper;
+import com.learning.core.models.User;
+import com.learning.core.repository.UserRepository;
+import com.learning.core.services.checkaddress.adapters.AddressService;
 
-// 	@Autowired
-// 	private UserRepository repository;
+@Service
+public class ApiHousekeeperService {
 
-// 	@Autowired
-// 	private ApiHousekeeperMapper mapper;
+    @Autowired
+    private UserRepository repository;
 
-// 	@Autowired
-// 	private AddressService addressService;
+    @Autowired
+    private ApiHousekeeperMapper mapper;
 
-// 	public HousekeeperLocationPagedResponse findHousekeeperByCep(String cep) {
+    @Autowired
+    private AddressService addressService;
 
-// 		var ibgeCode = findIbgeCodeByCep(cep);
+    public HousekeeperLocationPagedResponse findHousekeeperByzipCode(String zipCode) {
 
-// 		var userSort = Sort.sort(User.class);
-// 		var sort = userSort.by(User::getReputation).descending();
+        var ibgeCode= findIbgeCodeByzipCode(zipCode);
 
-// 		var pageNumber = 0;
+        var userSort= Sort.sort(User.class);
+        var sort= userSort.by(User::getReputation).descending();
 
-// 		var pageSize = 6;
+        var pageNumber= 0;
 
-// 		var pageable = PageRequest.of(pageNumber, pageSize, sort);
+        var pageSize= 6;
 
-// 		var result = repository.findByCitiesAttendedIbgeCode(ibgeCode, pageable);
+        var pageable= PageRequest.of(pageNumber, pageSize, sort);
 
-// 		var housekeeper = result.getContent().stream().map(mapper::toHousekeeperLocationResponse).toList();
+        var result= repository.findByCitiesAttendedIbgeCode(ibgeCode, pageable);
 
-// 		return new HousekeeperLocationPagedResponse(housekeeper, pageSize, result.getTotalElements());
-// 	}
+        var housekeeper= result.getContent().stream().map(mapper::toHousekeeperLocationResponse)
+            .toList();
 
-// 	public AvailabilityResponse checkAvailabilityByCep(String cep) {
+        return new HousekeeperLocationPagedResponse(housekeeper, pageSize,
+            result.getTotalElements());
+    }
 
-// 		findIbgeCodeByCep(cep);
+    public AvailabilityResponse checkAvailabilityByzipCode(String zipCode) {
 
-// 		var availability = repository.existsByCitiesAttendedIbgeCode(cep);
+        findIbgeCodeByzipCode(zipCode);
 
-// 		return new AvailabilityResponse(availability);
-// 	}
+        var availability= repository.existsByCitiesAttendedIbgeCode(zipCode);
 
-// 	private String findIbgeCodeByCep(String zipcode) {
-// 		return addressService.findAddressByZipcode(zipcode).getIbge();
-// 	}
+        return new AvailabilityResponse(availability);
+    }
 
-// }
+    private String findIbgeCodeByzipCode(String zipCode) {
+        return addressService.findAddressByzipCode(zipCode).getIbge();
+    }
+
+}

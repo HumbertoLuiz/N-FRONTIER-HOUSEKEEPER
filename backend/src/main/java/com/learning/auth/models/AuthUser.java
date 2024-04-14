@@ -8,17 +8,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.learning.core.models.User;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class AuthUser implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 		
 	private User user;
 
+    public AuthUser(User user) {
+        this.user = user;
+    }
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList(user.getUserType().toString());

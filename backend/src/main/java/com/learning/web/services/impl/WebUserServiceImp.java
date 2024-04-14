@@ -36,9 +36,13 @@ public class WebUserServiceImp implements WebUserService {
 	@Autowired
 	private UserValidator validator;
 
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	public User insert(UserInsertForm form) {
 		validateConfirmPassword((IConfirmPassword) form);
@@ -50,22 +54,28 @@ public class WebUserServiceImp implements WebUserService {
 		return userRepository.save(model);
 	}
 
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	public User findById(Long id) {
 		var message = String.format("User with ID %d not found", id);
-		return userRepository.findById(id)
-				.orElseThrow(() -> new UserNotFoundException(message));
+		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(message));
 	}
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	public User findByEmail(String email) {
 		var message = String.format("User with email %s not found", email);
-		return userRepository.findByEmail(email)
-				.orElseThrow(() -> new UserNotFoundException(message));
+		return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(message));
 	}
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	public UserUpdateForm findFormById(Long id) {
 		var user = findById(id);
 		return webUserMapper.toForm(user);
 	}
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	public User update(UserUpdateForm form, Long id) {
 		var user = findById(id);
@@ -77,10 +87,14 @@ public class WebUserServiceImp implements WebUserService {
 		return userRepository.save(model);
 	}
 
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	public void deleteById(Long id) {
 		var user = findById(id);
 		userRepository.delete(user);
 	}
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	public void changePassword(ChangePasswordForm form, String email) {
 		var user = findByEmail(email);
@@ -99,13 +113,15 @@ public class WebUserServiceImp implements WebUserService {
 		userRepository.save(user);
 	}
 
+	// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	private void validateConfirmPassword(IConfirmPassword obj) {
 		var password = obj.getPassword();
 		var confirmPassword = obj.getConfirmPassword();
 		if (!password.equals(confirmPassword)) {
 			var message = "fields doesn't match";
-			var fieldError = new FieldError(obj.getClass().getName(), "confirmPassword", obj.getConfirmPassword(), false,
-					null, null, message);
+			var fieldError = new FieldError(obj.getClass().getName(), "confirmPassword", obj.getConfirmPassword(),
+					false, null, null, message);
 			throw new PasswordDoesntMatchException(message, fieldError);
 		}
 	}

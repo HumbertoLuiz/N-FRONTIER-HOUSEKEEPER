@@ -5,6 +5,8 @@ import com.learning.core.services.checkaddress.exceptions.AddressServiceExceptio
 
 public interface AddressService {
 
-	AddressResponse findAddressByZipcode(String zipcode) throws AddressServiceException;
+	AddressResponse findAddressByzipCode(String zipCode) throws AddressServiceException;
+
+
 
 }

@@ -1,14 +1,14 @@
 package com.learning.core.exceptions;
 
-public class TokenNaBlackListException extends RuntimeException {
+public class TokenBlackListException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public TokenNaBlackListException() {
+	public TokenBlackListException() {
         super("The given token is not valid");
     }
 
-    public TokenNaBlackListException(String message) {
+    public TokenBlackListException(String message) {
         super(message);
     }
 

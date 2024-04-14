@@ -20,20 +20,20 @@ import com.learning.core.validators.UserValidator;
 @Service
 public class ApiUserService {
 
-	@Autowired
-	private UserRepository repository;
+    @Autowired
+    private UserRepository repository;
 
-	@Autowired
-	private ApiUserMapper mapper;
+    @Autowired
+    private ApiUserMapper mapper;
 
     @Autowired
     private TokenService tokenService;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private UserValidator validator;
+    @Autowired
+    private UserValidator validator;
 
     @Autowired
     private StorageService storageService;
@@ -41,12 +41,12 @@ public class ApiUserService {
     @Autowired
     private NewUserPublisher newUserPublisher;
 
-	public UserResponse save(UserRequest request) {
-		validatePasswordConfirmation(request);
-		var userToSave = mapper.toModel(request);
-		validator.validate(userToSave);
-		var passwordEncrypted = passwordEncoder.encode(userToSave.getPassword());
-		userToSave.setPassword(passwordEncrypted);
+    public UserResponse save(UserRequest request) {
+        validatePasswordConfirmation(request);
+        var userToSave= mapper.toModel(request);
+        validator.validate(userToSave);
+        var passwordEncrypted= passwordEncoder.encode(userToSave.getPassword());
+        userToSave.setPassword(passwordEncrypted);
         var documentPicture= storageService.save(request.getDocumentPicture());
         userToSave.setDocumentPicture(documentPicture);
 
@@ -55,13 +55,13 @@ public class ApiUserService {
             userToSave.setReputation(averageReputation);
         }
 
-		var userSaved = repository.save(userToSave);
+        var userSaved= repository.save(userToSave);
         newUserPublisher.publish(userSaved);
         var response= mapper.toRegisterResponse(userSaved);
         var tokenResponse= generateTokenResponse(response);
         response.setToken(tokenResponse);
         return response;
-	}
+    }
 
     private Double calculateHousekepperAverageReputation() {
         var averageReputation= repository.getHousekeeperAverageReputation();
@@ -72,15 +72,15 @@ public class ApiUserService {
     }
 
     private void validatePasswordConfirmation(UserRequest request) {
-		var password = request.getPassword();
-		var passwordConfirmation = request.getPasswordConfirmation();
-		if (!password.equals(passwordConfirmation)) {
-			var message = "the two password fields do not match";
-			var fieldError = new FieldError(request.getClass().getName(), "passwordConfirmation",
-					request.getPasswordConfirmation(), false, null, null, message);
-			throw new PasswordDoesntMatchException(message, fieldError);
-		}
-	}
+        var password= request.getPassword();
+        var passwordConfirmation= request.getPasswordConfirmation();
+        if (!password.equals(passwordConfirmation)) {
+            var message= "the two password fields do not match";
+            var fieldError= new FieldError(request.getClass().getName(), "passwordConfirmation",
+                request.getPasswordConfirmation(), false, null, null, message);
+            throw new PasswordDoesntMatchException(message, fieldError);
+        }
+    }
 
     private TokenResponse generateTokenResponse(UserRegisterResponse response) {
         var token= tokenService.generateAccessToken(response.getEmail());

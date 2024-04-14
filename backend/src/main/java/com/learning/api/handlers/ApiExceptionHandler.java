@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.learning.api.dtos.responses.ErrorResponse;
-import com.learning.core.exceptions.TokenNaBlackListException;
+import com.learning.core.exceptions.TokenBlackListException;
 import com.learning.core.exceptions.ValidatingException;
 import com.learning.core.services.checkaddress.exceptions.AddressServiceException;
 import com.learning.core.services.checkcity.exceptions.CheckCityServiceException;
@@ -58,9 +58,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             request.getRequestURI());
     }
 
-    @ExceptionHandler(TokenNaBlackListException.class)
-    public ResponseEntity<Object> handleTokenNaBlackListException(
-        TokenNaBlackListException exception, HttpServletRequest request) {
+    @ExceptionHandler(TokenBlackListException.class)
+    public ResponseEntity<Object> handleTokenBlackListException(
+        TokenBlackListException exception, HttpServletRequest request) {
         return createErrorResponse(HttpStatus.UNAUTHORIZED, exception.getLocalizedMessage(),
             request.getRequestURI());
     }

@@ -1,22 +1,23 @@
-// package com.learning.api.controllers;
+package com.learning.api.controllers;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.RestController;
-// import com.learning.core.services.checkaddress.adapters.AddressService;
-// import com.learning.core.services.checkaddress.dtos.AddressResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-// @RestController
-// @RequestMapping("/api/address")
-// public class AddressRestController {
+import com.learning.core.services.checkaddress.adapters.AddressService;
+import com.learning.core.services.checkaddress.dtos.AddressResponse;
 
-// 	@Autowired
-// 	private AddressService service;
+@RestController
+@RequestMapping("/api/address")
+public class AddressRestController {
 
-// 	@GetMapping
-// 	public AddressResponse findAddressByCep(@RequestParam(required = false)String zipcode) {
-// 		return service.findAddressByZipcode(zipcode);
-// 	}
-// }
+    @Autowired
+    private AddressService service;
+
+    @GetMapping
+    public AddressResponse findAddressByzipCode(@RequestParam(required= false) String zipCode) {
+        return service.findAddressByzipCode(zipCode);
+    }
+}

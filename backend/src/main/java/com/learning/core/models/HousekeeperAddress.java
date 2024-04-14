@@ -38,7 +38,7 @@ public class HousekeeperAddress {
     private String complement;
 
     @Column(nullable = false, length = 8)
-    private String cep;
+    private String zipCode;
 
     @Column(nullable = false, length = 30)
     private String city;

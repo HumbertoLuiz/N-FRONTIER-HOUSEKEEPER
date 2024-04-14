@@ -17,9 +17,9 @@ public class ViaCepService implements AddressService {
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	@Override
-	public AddressResponse findAddressByZipcode(String zipcode) throws AddressServiceException {
+	public AddressResponse findAddressByzipCode(String zipCode) throws AddressServiceException {
 		var url = UriComponentsBuilder.fromUriString(URL_TEMPLATE)
-				.buildAndExpand(zipcode)
+				.buildAndExpand(zipCode)
 				.toString();
 
 		ResponseEntity<AddressResponse> response;

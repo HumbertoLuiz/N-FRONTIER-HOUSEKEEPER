@@ -1,9 +1,12 @@
 <!doctype html>
-<html th:replace="~{adminlte3 :: layout (~{::title}, ~{::main}, _, ~{::scripts})}">
+<html 	lang="en" 
+		xmlns="http://www.w3.org/1999/xhtml"
+    	xmlns:th="http://www.thymeleaf.org"
+		th:replace="~{adminlte3 :: layout (~{::title}, ~{::main}, _, ~{::scripts})}">
 
 <head>
-	<meta charset="UTF-8" />
-	<title>Application Form</title>
+<meta charset="UTF-8" />
+<title>Application Form</title>
 </head>
 
 <body>
@@ -17,26 +20,29 @@
 					<div class="card-body">
 
 						<form method="POST" th:object="${form}">
-							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}">
 
 							<div class="row">
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="name">Name</label> <input type="text" class="form-control"
-											th:field="*{name}" />
+										<label for="name">Name</label> <input type="text"
+											class="form-control" th:field="*{name}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('name')}"
-												th:text="${erro}"></li>
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('name')}" th:text="${erro}"></li>
 										</ul>
 									</div>
 								</div>
 
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="minAmount">Minimum Amount</label> <input type="text"
-											class="form-control money" th:field="*{minAmount}" />
+										<label for="minAmount">Minimum Amount</label> <input
+											type="text" class="form-control money"
+											th:field="*{minAmount}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('minAmount')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('minAmount')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -46,10 +52,11 @@
 							<div class="row">
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="qtyHours">Quantity Hours</label> <input type="number"
-											class="form-control" th:field="*{qtyHours}" />
+										<label for="qtyHours">Quantity Hours</label> <input
+											type="number" class="form-control" th:field="*{qtyHours}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('qtyHours')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('qtyHours')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -57,8 +64,9 @@
 
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="percentComission">Percent Comission</label> <input type="text"
-											class="form-control money" th:field="*{percentComission}" />
+										<label for="percentComission">Percent Comission</label> <input
+											type="text" class="form-control money"
+											th:field="*{percentComission}" />
 										<ul>
 											<li class="text-danger"
 												th:each="erro : ${#fields.errors('percentComission')}"
@@ -74,7 +82,8 @@
 										<label for="roomHours">Room Hours</label> <input type="number"
 											class="form-control" th:field="*{roomHours}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('roomHours')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('roomHours')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -85,7 +94,8 @@
 										<label for="roomAmount">Room Amount</label> <input type="text"
 											class="form-control money" th:field="*{roomAmount}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('roomAmount')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('roomAmount')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -95,10 +105,11 @@
 							<div class="row">
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="livingHours">Living Room Hours</label> <input type="number"
-											class="form-control" th:field="*{livingHours}" />
+										<label for="livingHours">Living Room Hours</label> <input
+											type="number" class="form-control" th:field="*{livingHours}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('livingHours')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('livingHours')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -106,34 +117,12 @@
 
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="livingAmount">Living Room Amount</label> <input type="text"
-											class="form-control money" th:field="*{livingAmount}" />
+										<label for="livingAmount">Living Room Amount</label> <input
+											type="text" class="form-control money"
+											th:field="*{livingAmount}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('livingAmount')}"
-												th:text="${erro}"></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-6 col-sm-12">
-									<div class="for-group">
-										<label for="bathroomHours">Bathroom Hours</label> <input type="number"
-											class="form-control" th:field="*{bathroomHours}" />
-										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('bathroomHours')}"
-												th:text="${erro}"></li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-md-6 col-sm-12">
-									<div class="for-group">
-										<label for="bathroomAmount">Bathroom Amount</label> <input type="text"
-											class="form-control money" th:field="*{bathroomAmount}" />
-										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('bathroomAmount')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('livingAmount')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -143,10 +132,12 @@
 							<div class="row">
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="kitchenHours">Kitchen Hours</label> <input type="number"
-											class="form-control" th:field="*{kitchenHours}" />
+										<label for="bathroomHours">Bathroom Hours</label> <input
+											type="number" class="form-control"
+											th:field="*{bathroomHours}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('kitchenHours')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('bathroomHours')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -154,10 +145,39 @@
 
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="kitchenAmount">Kitchen Amount</label> <input type="text"
-											class="form-control money" th:field="*{kitchenAmount}" />
+										<label for="bathroomAmount">Bathroom Amount</label> <input
+											type="text" class="form-control money"
+											th:field="*{bathroomAmount}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('kitchenAmount')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('bathroomAmount')}"
+												th:text="${erro}"></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="kitchenHours">Kitchen Hours</label> <input
+											type="number" class="form-control" th:field="*{kitchenHours}" />
+										<ul>
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('kitchenHours')}"
+												th:text="${erro}"></li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-md-6 col-sm-12">
+									<div class="for-group">
+										<label for="kitchenAmount">Kitchen Amount</label> <input
+											type="text" class="form-control money"
+											th:field="*{kitchenAmount}" />
+										<ul>
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('kitchenAmount')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -170,7 +190,8 @@
 										<label for="yardHours">Yard Hours</label> <input type="number"
 											class="form-control" th:field="*{yardHours}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('yardHours')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('yardHours')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -181,7 +202,8 @@
 										<label for="yardAmount">Yard Amount</label> <input type="text"
 											class="form-control money" th:field="*{yardAmount}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('yardAmount')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('yardAmount')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -191,10 +213,11 @@
 							<div class="row">
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="othersHours">Others Hours</label> <input type="number"
-											class="form-control" th:field="*{othersHours}" />
+										<label for="othersHours">Others Hours</label> <input
+											type="number" class="form-control" th:field="*{othersHours}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('othersHours')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('othersHours')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -202,10 +225,12 @@
 
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="othersAmount">Others Amount</label> <input type="text"
-											class="form-control money" th:field="*{othersAmount}" />
+										<label for="othersAmount">Others Amount</label> <input
+											type="text" class="form-control money"
+											th:field="*{othersAmount}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('othersAmount')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('othersAmount')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -215,23 +240,23 @@
 							<div class="row">
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="icon">Icon</label> <select class="form-control" th:field="*{icon}">
-											<option th:each="icon : ${icons}" th:text="${icon.name}"
-												th:value="${icon}" />
+										<label for="icon">Icon</label> 
+										<select class="form-control" th:field="*{icon}">
+											<option th:each="icon : ${icons}" th:text="${icon.name}" th:value="${icon}" />
 										</select>
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('icon')}"
-												th:text="${erro}"></li>
+											<li class="text-danger"	th:each="erro : ${#fields.errors('icon')}" th:text="${erro}"></li>
 										</ul>
 									</div>
 								</div>
 
 								<div class="col-md-6 col-sm-12">
 									<div class="for-group">
-										<label for="position">Position</label> <input type="number" class="form-control"
-											th:field="*{position}" />
+										<label for="position">Position</label> <input type="number"
+											class="form-control" th:field="*{position}" />
 										<ul>
-											<li class="text-danger" th:each="erro : ${#fields.errors('position')}"
+											<li class="text-danger"
+												th:each="erro : ${#fields.errors('position')}"
 												th:text="${erro}"></li>
 										</ul>
 									</div>
@@ -249,11 +274,15 @@
 		</div>
 	</main>
 	<th:block th:fragment="scripts">
-		<script th:src="@{/webjars/jquery-mask-plugin/dist/jquery.mask.min.js}">
+		<script
+			th:src="@{/webjars/jquery-mask-plugin/dist/jquery.mask.min.js}">
+			
 		</script>
 		<script>
-			$(document).ready(function () {
-				$('.money').mask("#.##0,00", {reverse: true});
+			$(document).ready(function() {
+				$('.money').mask("#.##0,00", {
+					reverse : true
+				});
 			})
 		</script>
 	</th:block>
