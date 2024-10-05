@@ -8,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import com.learning.core.enums.Icon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +23,7 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @Entity
+@Table(name = "jobs")
 public class Job {
 
 	@EqualsAndHashCode.Include
@@ -32,49 +35,49 @@ public class Job {
 	@Column(length = 50, nullable = false)
 	private String name;
 
-	@Column(nullable = false)
+	@Column(name = "min_amount", nullable = false)
 	private BigDecimal minAmount;
 
-	@Column(nullable = false)
+	@Column(name = "qty_hours", nullable = false)
 	private Integer qtyHours;
 
-	@Column(nullable = false)
+	@Column(name = "percent_comission", nullable = false)
 	private BigDecimal percentComission;
 
-	@Column(nullable = false)
+	@Column(name = "room_hours", nullable = false)
 	private Integer roomHours;
 
-	@Column(nullable = false)
+	@Column(name = "room_amount", nullable = false)
 	private BigDecimal roomAmount;
 
-	@Column(nullable = false)
+	@Column(name = "living_hours", nullable = false)
 	private Integer livingHours;
 
-	@Column(nullable = false)
+	@Column(name = "living_amount", nullable = false)
 	private BigDecimal livingAmount;
 
-	@Column(nullable = false)
+	@Column(name = "bathroom_hours", nullable = false)
 	private Integer bathroomHours;
 
-	@Column(nullable = false)
+	@Column(name = "bathroom_amount", nullable = false)
 	private BigDecimal bathroomAmount;
 
-	@Column(nullable = false)
+	@Column(name = "kitchen_hours", nullable = false)
 	private Integer kitchenHours;
 
-	@Column(nullable = false)
+	@Column(name = "kitchen_amount", nullable = false)
 	private BigDecimal kitchenAmount;
 
-	@Column(nullable = false)
+	@Column(name = "yard_hours", nullable = false)
 	private Integer yardHours;
 
-	@Column(nullable = false)
+	@Column(name = "yard_amount", nullable = false)
 	private BigDecimal yardAmount;
 
-	@Column(nullable = false)
+	@Column(name = "others_hours", nullable = false)
 	private Integer othersHours;
 
-	@Column(nullable = false)
+	@Column(name = "others_amount", nullable = false)
 	private BigDecimal othersAmount;
 
 	@Column(nullable = false, length = 14)

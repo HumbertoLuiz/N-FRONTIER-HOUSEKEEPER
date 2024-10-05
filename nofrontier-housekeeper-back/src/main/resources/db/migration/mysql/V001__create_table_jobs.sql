@@ -1,4 +1,4 @@
-CREATE TABLE `job` (
+CREATE TABLE `jobs` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `bathroom_hours` int NOT NULL,
   `kitchen_hours` int NOT NULL,

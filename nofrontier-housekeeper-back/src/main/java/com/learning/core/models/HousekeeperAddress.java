@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,6 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
+@Table(name = "housekeeper_address")
 public class HousekeeperAddress {
 
     @Id
@@ -31,13 +33,13 @@ public class HousekeeperAddress {
     @Column(nullable = false, length = 10)
     private String number;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 60)
     private String neighborhood;
 
     @Column(nullable = true)
     private String complement;
 
-    @Column(nullable = false, length = 8)
+    @Column(name = "zip_code", nullable = false, length = 8)
     private String zipCode;
 
     @Column(nullable = false, length = 30)

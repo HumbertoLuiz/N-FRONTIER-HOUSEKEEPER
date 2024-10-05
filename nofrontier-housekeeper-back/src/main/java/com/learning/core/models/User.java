@@ -18,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,6 +31,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
+@Table(name = "users")
 public class User {
 
 	@EqualsAndHashCode.Include
@@ -38,7 +40,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(name = "complete_name", nullable = false)
 	private String completeName;
 
 	@Column(nullable = false, unique = true)
@@ -53,16 +55,16 @@ public class User {
 	@Column(nullable = true)
 	private LocalDate birth;
 
-	@Column(nullable = true, length = 11)
+	@Column(name = "phone_number", nullable = true, length = 11)
 	private String phoneNumber;
 
 	@Column(nullable = true)
 	private Double reputation;
 
-	@Column(nullable = true, unique = true)
+	@Column(name = "key_pix", nullable = true, unique = true)
 	private String keyPix;
 	
-    @Column(length = 11, nullable = false)
+    @Column(name = "user_type", length = 11, nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
@@ -81,6 +83,7 @@ public class User {
 	@OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id", nullable = true)
 	private HousekeeperAddress address;
+
 
 
 	public Boolean isHousekeeper() {

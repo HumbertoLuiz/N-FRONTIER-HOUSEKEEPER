@@ -12,5 +12,5 @@ CREATE TABLE `cities_attended_users` (
   KEY (`user_id`),
   KEY (`city_attended_id`),
   CONSTRAINT FOREIGN KEY (`city_attended_id`) REFERENCES `city_attended` (`id`),
-  CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 );

@@ -1,4 +1,4 @@
-ALTER TABLE `user`
+ALTER TABLE `users`
   ADD `cpf` varchar(11) DEFAULT NULL,
   ADD `birth` date DEFAULT NULL,
   ADD `phone_number` varchar(11) DEFAULT NULL,

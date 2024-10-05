@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,8 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -27,14 +24,8 @@ import com.learning.core.filters.AccessTokenRequestFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
@@ -42,105 +33,96 @@ public class SecurityConfig {
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;
 
+	@Autowired
+	private AccessTokenRequestFilter accessTokenRequestFilter;
+
+	@Value("${com.learning.rememberMe.key}")
+	private String rememberMeKey;
+
+	@Value("${com.learning.rememberMe.validitySeconds}")
+	private int rememberMeValiditySeconds;
+
+	private static final String[] SWAGGER_WHITELIST = {"/v3/api-docs/**",
+			"/swagger-resources/**", "/configuration/ui/**",
+			"/configuration/security/**", "/swagger-ui.html/**",
+			"/swagger-ui/**", "/webjars/**"};
+
+	@Bean
 	@Order(1)
-	@Configuration
-	public class ApiSecurityConfig {
+	SecurityFilterChain apiSecurityFilterChain(HttpSecurity http)
+			throws Exception {
+		http.httpBasic(AbstractHttpConfigurer::disable);
 
-		@Autowired
-		private AccessTokenRequestFilter accessTokenRequestFilter;
+		http.securityMatchers(
+				securityMatchersCustomizer -> securityMatchersCustomizer
+						.requestMatchers("/api/**", "/auth/**"));
 
-		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-		}
+		http.authorizeHttpRequests(
+				authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
+						.requestMatchers(SWAGGER_WHITELIST).permitAll()
+						.anyRequest().permitAll());
 
-		@Bean
-		AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-				throws Exception {
-			return authenticationConfiguration.getAuthenticationManager();
-		}
+		http.csrf(AbstractHttpConfigurer::disable);
 
-		@Bean
-		SecurityFilterChain configure(HttpSecurity http) throws Exception {
+		http.sessionManagement(
+				sessionManagementCustomizer -> sessionManagementCustomizer
+						.sessionCreationPolicy(
+								SessionCreationPolicy.STATELESS));
 
-//            http.securityMatchers(securityMatchersCustomizer -> securityMatchersCustomizer
-//                .requestMatchers("/api/**", "/auth/**"));
+		http.addFilterBefore(accessTokenRequestFilter,
+				UsernamePasswordAuthenticationFilter.class).exceptionHandling(
+						exceptionHandlingCustomizer -> exceptionHandlingCustomizer
+								.authenticationEntryPoint(
+										authenticationEntryPoint)
+								.accessDeniedHandler(accessDeniedHandler));
 
-			http.authorizeHttpRequests(
-					authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer.anyRequest().permitAll());
+		http.cors(cors -> {
+		});
 
-//            http.authorizeHttpRequests(
-//                authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer
-//                    .requestMatchers("/uploads").permitAll()
-//                    .requestMatchers("/api/**").permitAll()
-//                    .requestMatchers("/auth/**").permitAll()
-//                    .requestMatchers("/admin/**").hasAuthority(UserType.ADMIN.toString())
-//                    .anyRequest().permitAll());
-//
-//            http.formLogin(formLoginCustomizer -> formLoginCustomizer
-//                .loginPage("/admin/login")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
-//                .defaultSuccessUrl("/admin/jobs")
-//                .permitAll());
-//
-//            http.logout(logoutCustomizer -> logoutCustomizer
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout", "GET"))
-//                .logoutSuccessUrl("/admin/login"));
-
-			http.sessionManagement(sessionManagementCustomizer -> sessionManagementCustomizer
-					.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-			http.addFilterBefore(accessTokenRequestFilter, UsernamePasswordAuthenticationFilter.class)
-					.exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
-							.authenticationEntryPoint(authenticationEntryPoint)
-							.accessDeniedHandler(accessDeniedHandler));
-
-			http.csrf(AbstractHttpConfigurer::disable);
-			http.cors(AbstractHttpConfigurer::disable);
-
-			return http.build();
-		}
+		return http.build();
 	}
 
+	@Bean
 	@Order(2)
-	@Configuration
-	public class WebSecurityConfig {
+	SecurityFilterChain webSecurityFilterChain(HttpSecurity http)
+			throws Exception {
+		http.authorizeHttpRequests(
+				requestMatcherCustomizer -> requestMatcherCustomizer
+						.requestMatchers("/admin/**"))
+				.authorizeHttpRequests(
+						authorizeRequestsCustomizer -> authorizeRequestsCustomizer
+								.requestMatchers("/admin/**").permitAll()
+								.requestMatchers("/admin/reset-password/**")
+								.permitAll().anyRequest()
+								.hasAuthority(UserType.ADMIN.name()))
+				.formLogin(formLoginCustomizer -> formLoginCustomizer
+						.loginPage("/admin/login").usernameParameter("email")
+						.passwordParameter("password")
+						.defaultSuccessUrl("/admin/jobs").permitAll())
+				.logout(logoutCustomizer -> logoutCustomizer
+						.logoutRequestMatcher(new AntPathRequestMatcher(
+								"/admin/logout", "GET"))
+						.logoutSuccessUrl("/admin/login"))
+				.rememberMe(rememberMeCustomizer -> rememberMeCustomizer
+						.rememberMeParameter("remember-me")
+						.tokenValiditySeconds(rememberMeValiditySeconds)
+						.key(rememberMeKey))
+				.exceptionHandling(
+						exceptionHandlingCustomizer -> exceptionHandlingCustomizer
+								.accessDeniedPage("/admin/login"));
 
-		@Value("${com.learning.rememberMe.key}")
-		private String rememberMeKey;
-
-		@Value("${com.learning.rememberMe.validitySeconds}")
-		private int rememberMeValiditySeconds;
-
-		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-		}
-
-		protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-
-			http.authorizeHttpRequests(
-					requestMatcherCustomizer -> requestMatcherCustomizer.requestMatchers("/admin/**"))
-					.authorizeHttpRequests(authorizeRequestsCustomizer -> authorizeRequestsCustomizer
-							.requestMatchers("/admin/**").permitAll().requestMatchers("/admin/reset-password/**")
-							.permitAll().anyRequest().hasAuthority(UserType.ADMIN.name()))
-					.formLogin(formLoginCustomizer -> formLoginCustomizer.loginPage("/admin/login")
-							.usernameParameter("email").passwordParameter("password").defaultSuccessUrl("/admin/jobs")
-							.permitAll())
-					.logout(logoutCustomizer -> logoutCustomizer
-							.logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout", "GET"))
-							.logoutSuccessUrl("/admin/login"))
-					.rememberMe(rememberMeCustomizer -> rememberMeCustomizer.rememberMeParameter("remember-me")
-							.tokenValiditySeconds(rememberMeValiditySeconds).key(rememberMeKey))
-					.exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
-							.accessDeniedPage("/admin/login"));
-
-			return http.build();
-		}
-
-		@Bean
-		WebSecurityCustomizer webSecurityCustomizer() {
-			return web -> web.ignoring().requestMatchers("/img/**", "/js/**", "/webjars/**");
-		}
-
+		return http.build();
 	}
+
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return web -> web.ignoring().requestMatchers("/webjars/**", "/img/**");
+	}
+
+	@Bean
+	AuthenticationManager authenticationManager(
+			AuthenticationConfiguration configuration) throws Exception {
+		return configuration.getAuthenticationManager();
+	}
+
 }
