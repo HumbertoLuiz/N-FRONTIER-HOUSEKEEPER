@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.learning.core.enums.UserType;
 
 @JsonNaming(SnakeCaseStrategy.class)
-public class UserResponse {
+public class UserResponse extends HateoasResponse{
 
 	private Long id;
 	private String completeName;

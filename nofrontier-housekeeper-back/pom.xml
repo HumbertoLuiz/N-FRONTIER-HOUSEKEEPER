@@ -25,8 +25,9 @@
 		<google-maps-services.version>2.2.0</google-maps-services.version>
 		<aws-java-sdk-version>1.12.479</aws-java-sdk-version>
 		<font-awesome.version>6.4.0</font-awesome.version>
-		<lombok.version>1.18.32</lombok.version>
+		<lombok.version>1.18.34</lombok.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<hibernate-jpamodelgen.version>6.6.1.Final</hibernate-jpamodelgen.version>
 		<maven-processor.version>5.0</maven-processor.version>
 	</properties>
 
@@ -154,6 +155,13 @@
 			<version>${google-maps-services.version}</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>${hibernate-jpamodelgen.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
@@ -254,6 +262,27 @@
 				<groupId>org.bsc.maven</groupId>
 				<artifactId>maven-processor-plugin</artifactId>
 				<version>${maven-processor.version}</version>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<processors>
+								<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+							</processors>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-jpamodelgen</artifactId>
+						<version>${hibernate-jpamodelgen.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

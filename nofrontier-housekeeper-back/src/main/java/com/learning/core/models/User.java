@@ -1,5 +1,6 @@
 package com.learning.core.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,9 +12,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -29,16 +27,12 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false)
+@ToString
 @Table(name = "users")
-public class User {
+public class User extends IdBaseEntity implements Serializable {
 
-	@EqualsAndHashCode.Include
-	@ToString.Include
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private static final long serialVersionUID = 1L;
 
 	@Column(name = "complete_name", nullable = false)
 	private String completeName;

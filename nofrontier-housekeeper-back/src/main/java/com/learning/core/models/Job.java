@@ -1,16 +1,15 @@
 package com.learning.core.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import com.learning.core.enums.Icon;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import com.learning.core.enums.Icon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,17 +19,13 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false)
+@ToString
 @Entity
 @Table(name = "jobs")
-public class Job {
+public class Job extends IdBaseEntity implements Serializable {
 
-	@EqualsAndHashCode.Include
-	@ToString.Include
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private static final long serialVersionUID = 1L;
 
 	@Column(length = 50, nullable = false)
 	private String name;
@@ -44,17 +39,17 @@ public class Job {
 	@Column(name = "percent_comission", nullable = false)
 	private BigDecimal percentComission;
 
+	@Column(name = "bedroom_hours", nullable = false)
+	private Integer bedroomHours;
+
+	@Column(name = "bedroom_amount", nullable = false)
+	private BigDecimal bedroomAmount;
+
 	@Column(name = "room_hours", nullable = false)
 	private Integer roomHours;
 
 	@Column(name = "room_amount", nullable = false)
 	private BigDecimal roomAmount;
-
-	@Column(name = "living_hours", nullable = false)
-	private Integer livingHours;
-
-	@Column(name = "living_amount", nullable = false)
-	private BigDecimal livingAmount;
 
 	@Column(name = "bathroom_hours", nullable = false)
 	private Integer bathroomHours;

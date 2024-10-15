@@ -1,5 +1,6 @@
 package com.learning.core.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.learning.core.enums.PaymentStatus;
@@ -29,7 +30,9 @@ import lombok.ToString;
 @ToString(onlyExplicitlyIncluded = true)
 @Builder
 @Table(name = "payment")
-public class Payment extends Auditable {
+public class Payment extends Auditable implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

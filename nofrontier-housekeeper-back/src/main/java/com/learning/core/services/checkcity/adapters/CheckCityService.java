@@ -5,6 +5,6 @@ import com.learning.core.services.checkcity.exceptions.CheckCityServiceException
 
 public interface CheckCityService {
 
-    CityResponse findCityByIbgeCode(String codigoIbge) throws CheckCityServiceException;
+    CityResponse findCityByIbgeCode(String ibgeCode) throws CheckCityServiceException;
 
 }

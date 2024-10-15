@@ -1,12 +1,10 @@
 package com.learning.core.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,16 +17,12 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false)
+@ToString
 @Table(name = "city_attended")
-public class CityAttended {
+public class CityAttended extends IdBaseEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    @ToString.Include
-    private Long id;
+	private static final long serialVersionUID = 1L;
 
     @Column(name = "ibge_code", nullable = false)
     private String ibgeCode;

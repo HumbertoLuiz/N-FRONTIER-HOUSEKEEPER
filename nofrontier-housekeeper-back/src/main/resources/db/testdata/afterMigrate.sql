@@ -32,20 +32,22 @@ ALTER TABLE `rating` auto_increment = 1;
 ALTER TABLE `payment` auto_increment = 1;
 ALTER TABLE `password_reset` auto_increment = 1;
 
-INSERT INTO `jobs` (`name`, `min_amount`, `qty_hours`, `percent_comission`, `room_hours`, `room_amount`, 
-					`living_hours`, `living_amount`, `bathroom_hours`, `bathroom_amount`, `kitchen_hours`, 
-					`kitchen_amount`, `yard_hours`, `yard_amount`, `others_hours`, `others_amount`, 
-					`icon`, `position`) VALUES    
-('CLEANING_1', 896.55, 1, 964.67, 1, 70.68, 1, 992.88, 1, 129.26, 1, 116.8, 1, 111.33, 1, 36.5, 'HL_CLEANING_1', 1),
-('CLEANING_2', 14.2, 2, 504.12, 2, 352.37, 2, 7.78, 2, 500.45, 2, 833.32, 2, 106.18, 2, 84.28, 'HL_CLEANING_1', 1),
-('CLEANING_3', 46.36, 3, 523.17, 3, 750.85, 3, 329.81, 3, 355.16, 3, 44.22, 3, 234.68, 3, 594.35, 'HL_CLEANING_1', 1),
-('CLEANING_4', 993.67, 4, 127.15, 4, 343.74, 4, 460.09, 4, 830.5, 4, 756.3, 4, 755.81, 4, 360.46, 'HL_CLEANING_2', 2),
-('CLEANING_5', 502.95, 5, 989.09, 5, 170.79, 5, 834.96, 5, 486.12, 5, 268.14, 5, 100.17, 5, 746.26, 'HL_CLEANING_2', 2),
-('CLEANING_6', 650.61, 6, 972.11, 6, 802.12, 6, 855.21, 6, 153.85, 6, 177.16, 6, 314.99, 6, 100.42, 'HL_CLEANING_2', 2),
-('CLEANING_7', 62.23, 7, 360.71, 7, 212.18, 7, 13.61, 7, 219.54, 7, 977.52, 7, 504.15, 7, 512.55, 'HL_CLEANING_2', 2),
-('CLEANING_8', 136.87, 8, 115.92, 8, 191.01, 8, 59.43, 8, 869.03, 8, 774.1, 8, 913.34, 8, 331.33, 'HL_CLEANING_3', 3),
-('CLEANING_9', 6.99, 9, 273.44, 9, 285.59, 9, 620.7, 9, 992.38, 9, 528.88, 9, 998.2, 9, 995.68, 'HL_CLEANING_3', 3),
-('CLEANING_10', 341.55, 10, 559.41, 10, 630.38, 10, 567.72, 10, 30.5, 10, 363.39, 10, 734.73, 10, 223.58, 'HL_CLEANING_3', 3);
+INSERT INTO jobs (`name`, `min_amount`, `qty_hours`, `percent_comission`, `bedroom_hours`, 
+                  `bedroom_amount`, `room_hours`, `room_amount`, `bathroom_hours`, 
+                  `bathroom_amount`, `kitchen_hours`, `kitchen_amount`, `yard_hours`, 
+                  `yard_amount`, `others_hours`, `others_amount`, `icon`, `position`) 
+VALUES 
+('Job 1', 150.00, 40, 10.5, 2, 50.00, 3, 70.00, 1, 30.00, 2, 40.00, 1, 20.00, 1, 25.00, 'HL_CLEANING_1', 3),
+('Job 2', 200.00, 35, 12.0, 3, 60.00, 4, 80.00, 2, 35.00, 3, 45.00, 1, 25.00, 1, 30.00, 'HL_CLEANING_1', 3),
+('Job 3', 180.00, 50, 9.0, 2, 55.00, 3, 75.00, 1, 32.00, 2, 42.00, 2, 22.00, 1, 27.00, 'HL_CLEANING_1', 3),
+('Job 4', 160.00, 30, 8.5, 1, 52.00, 3, 78.00, 1, 34.00, 2, 43.00, 1, 21.00, 1, 29.00, 'HL_CLEANING_2', 2),
+('Job 5', 220.00, 45, 15.0, 4, 65.00, 5, 85.00, 2, 37.00, 3, 47.00, 2, 26.00, 1, 33.00, 'HL_CLEANING_2', 2),
+('Job 6', 170.00, 32, 11.5, 2, 53.00, 4, 79.00, 1, 33.00, 2, 44.00, 2, 23.00, 2, 31.00, 'HL_CLEANING_2', 2),
+('Job 7', 195.00, 48, 13.0, 3, 59.00, 5, 82.00, 2, 36.00, 3, 46.00, 1, 24.00, 1, 28.00, 'HL_CLEANING_3', 1),
+('Job 8', 210.00, 42, 14.5, 4, 64.00, 4, 83.00, 1, 31.00, 2, 41.00, 3, 27.00, 2, 35.00, 'HL_CLEANING_3', 1),
+('Job 9', 185.00, 39, 10.0, 2, 57.00, 3, 77.00, 2, 38.00, 2, 39.00, 2, 28.00, 1, 32.00, 'HL_CLEANING_3', 1),
+('Job 10', 205.00, 36, 9.5, 1, 54.00, 4, 81.00, 1, 29.00, 2, 38.00, 3, 30.00, 1, 34.00, 'HL_CLEANING_3', 1);
+
 
 INSERT INTO `users` (`complete_name`, `email`, `password`, `user_type`) VALUES
 ('João da Silva', 'joao@mail.com', '$2a$10$elmsMlIUipV7rWy6f90rHucH4qyXz1f/RUbU1q57paYZ4sbvoDGuy', 1),
@@ -75,21 +77,22 @@ INSERT INTO `housekeeper_address` (`address`, `number`, `neighborhood`, `complem
 ('Rua dos Orixás', 147, 'Sítio dos Vianas', 'casa', '09171800', 'Santo André', 'SP'),
 ('Travessa Vila Velha', 157, 'Condomínio Maracanã', 'casa', '09122038', 'Santo André', 'SP');
 
-INSERT INTO `daily` (`created_at`, `updated_at`, `date_service`, `time_service`, `status`, `price`, `value_commission`, `address`, 
-					 `number`, `neighborhood`, `complement`, `city`, `state`, `zip_code`, `ibge_code`, 
-					 `quantity_bedrooms`, `quantity_rooms`, `quantity_kitchens`, `quantity_bathrooms`, 
-					 `quantity_yards`, `quantity_others`, `observations`, `reason_cancellation`, 
-					 `customer_id`, `housekeeper_id`, `job_id`) VALUES 
-(NOW(), NOW(), '2024-04-28', 1, 'PAID', 616.39, 77.79, 'Nova', 5, '12th Floor', 'Apt 617', 'San Carlos de Bolívar', 'SP', '6550', '9016', 1, 1, 1, 1, 1, 1, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-09-13', 2, 'PAID', 911.56, 29.69, 'Gateway', 1, 'Suite 47', '16th Floor', 'Valerik', 'SP', '366609', '2071', 2, 2, 2, 2, 2, 2, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-08-21', 3, 'PAID', 381.86, 57.53, 'Continental', 5346, 'Room 1404', 'Apt 973', 'Pancol', 'SP', '3200', '8171', 3, 3, 3, 3, 3, 3, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-05-03', 4, 'PAID', 502.96, 77.34, 'Claremont', 804, '3rd Floor', 'Room 1829', 'Al Mazra‘ah', 'SP', 'SP', '1043', 4, 4, 4, 4, 4, 4, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-08-21', 5, 'PAID', 873.33, 96.44, 'Arapahoe', 09337, 'Apt 12', '3rd Floor', 'Balekambang', 'SP', 'SP', '0821', 5, 5, 5, 5, 5, 5, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-05-27', 6, 'PAID', 720.43, 97.74, 'Morrow', 44243, 'Suite 6', 'Suite 65', 'Évry', 'A8', '91044', '8254', 6, 6, 6, 6, 6, 6, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-08-28', 7, 'PAID', 11.48, 23.61, 'Brentwood', 2, 'PO Box 15726', 'Apt 1923', 'Yershov', 'SP', '442080', '8222', 7, 7, 7, 7, 7, 7, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-03-10', 8, 'PAID', 559.7, 19.31, 'Fisk', 31, 'Room 517', 'Suite 37', 'Jengglungharjo', 'SP', 'SP', '246', 8, 8, 8, 8, 8, 8, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-04-29', 9, 'PAID', 299.46, 30.66, 'Glendale', 96767, 'Room 1204', 'Apt 940', 'Tibro', 'O', '543 35', '7760', 9, 9, 9, 9, 9, 9, null, null, 2, 2, 2),
-(NOW(), NOW(), '2024-11-15', 10, 'PAID', 36.03, 9.88, 'Merry', 7, '6th Floor', 'Suite 19', 'Lau', '15', '2950-127', '199', 10, 10, 10, 10, 10, 10, null, null, 2, 2, 2);
+INSERT INTO daily (`created_at`, `updated_at`, `date_service`, `time_service`, `status`, `price`, 
+                   `value_commission`, `address`, `number`, `neighborhood`, `complement`, `city`, 
+                   `state`, `zip_code`, `ibge_code`, `quantity_bedrooms`, `quantity_rooms`, 
+                   `quantity_kitchens`, `quantity_bathrooms`, `quantity_yards`, `quantity_others`, 
+                   `observations`, `reason_cancellation`, `customer_id`, `housekeeper_id`, `job_id`) 
+VALUES 
+(NOW(), NOW(), '2024-10-07 08:00:00', 3, 'CONFIRMED', 200.00, 20.00, '123 Main St', '101', 'Downtown', null, 'Springfield', 'SP', '12345678', '3550308', 2, 1, 1, 1, 0, 1, 'Nenhuma', null, 1, 2, 1),
+(NOW(), NOW(), '2024-10-08 09:00:00', 2, 'PAID', 180.00, 15.00, '456 Oak St', '102', 'Northside', 'Apt 5', 'Metropolis', 'MT', '87654321', '3157807', 3, 2, 1, 2, 1, 1, 'N/A', null, 2, 3, 2),
+(NOW(), NOW(), '2024-10-09 07:30:00', 4, 'NO_PAYMENT', 250.00, 25.00, '789 Pine St', '103', 'West End', null, 'Gotham', 'GO', '23456789', '5300108', 4, 2, 2, 1, 1, 0, null, null, 3, 4, 3),
+(NOW(), NOW(), '2024-10-10 10:00:00', 3, 'CONCLUDED', 220.00, 18.00, '101 Maple St', '104', 'Eastside', null, 'Star City', 'SC', '34567890', '4216602', 1, 1, 1, 2, 1, 1, 'Nenhuma', 'Condições climáticas', 4, 5, 4),
+(NOW(), NOW(), '2024-10-11 08:30:00', 5, 'CONFIRMED', 300.00, 30.00, '202 Cedar St', '105', 'Midtown', 'Bldg 2', 'Central City', 'CC', '45678901', '4106902', 3, 3, 1, 1, 2, 2, 'N/A', null, 5, 6, 5),
+(NOW(), NOW(), '2024-10-12 06:45:00', 4, 'PAID', 270.00, 25.00, '303 Willow St', '106', 'Uptown', null, 'Coast City', 'CO', '56789012', '3304557', 2, 2, 1, 2, 1, 1, 'N/A', null, 1, 2, 6),
+(NOW(), NOW(), '2024-10-13 09:15:00', 2, 'NO_PAYMENT', 150.00, 12.00, '404 Birch St', '107', 'Suburb', null, 'Bludhaven', 'BH', '67890123', '3305802', 1, 1, 0, 1, 0, 1, null, 'Cliente cancelou', 2, 3, 7),
+(NOW(), NOW(), '2024-10-14 11:00:00', 3, 'CONCLUDED', 210.00, 20.00, '505 Elm St', '108', 'Village', 'Suite 3', 'Keystone City', 'KC', '78901234', '3302902', 2, 1, 1, 2, 1, 1, null, null, 3, 4, 8),
+(NOW(), NOW(), '2024-10-15 07:00:00', 4, 'CONFIRMED', 230.00, 22.00, '606 Walnut St', '109', 'Countryside', null, 'Hub City', 'HC', '89012345', '3304557', 3, 2, 2, 1, 1, 0, 'Cliente requer atenção especial', null, 4, 5, 9),
+(NOW(), NOW(), '2024-10-16 08:45:00', 5, 'PAID', 280.00, 28.00, '707 Spruce St', '110', 'Lakeside', null, 'Fawcett City', 'FC', '90123456', '3306305', 4, 3, 1, 2, 2, 2, 'Observações adicionais', 'Problema técnico', 5, 6, 10);
 
 
 INSERT INTO `rating` (`created_at`, `updated_at`, `description`, `grade`, `visibility`, `daily_id`, `evaluator_id`, `evaluated_id`) VALUES 

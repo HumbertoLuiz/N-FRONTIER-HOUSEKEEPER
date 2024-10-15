@@ -1,14 +1,13 @@
 package com.learning.core.models;
 
+import java.io.Serializable;
+
+import com.learning.core.listeners.PictureEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import com.learning.core.listeners.PictureEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,16 +21,12 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false)
+@ToString
 @Table(name = "picture")
-public class Picture {
+public class Picture extends IdBaseEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    @ToString.Include
-    private Long id;
+	private static final long serialVersionUID = 1L;
 
     @Column(nullable = false, unique = true)
     private String filename;

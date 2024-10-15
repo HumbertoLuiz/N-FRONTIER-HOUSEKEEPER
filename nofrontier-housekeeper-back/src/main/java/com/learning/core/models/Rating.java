@@ -1,5 +1,7 @@
 package com.learning.core.models;
 
+import java.io.Serializable;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +26,9 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
 @Table(name = "rating")
-public class Rating extends Auditable {
+public class Rating extends Auditable implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +40,7 @@ public class Rating extends Auditable {
     private String description;
 
     @Column(nullable = false)
-    private Double grade;
+    private Double score;
 
     @Column(nullable = false)
     private Boolean visibility;

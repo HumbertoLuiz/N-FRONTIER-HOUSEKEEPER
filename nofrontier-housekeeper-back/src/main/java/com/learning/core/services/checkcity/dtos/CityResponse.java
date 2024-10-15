@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CityResponse {
 
-    private String ibge;
+    private String ibgeCode;
 
-    private String cidade;
+    private String city;
 
-    private String estado;
+    private String state;
 
 }

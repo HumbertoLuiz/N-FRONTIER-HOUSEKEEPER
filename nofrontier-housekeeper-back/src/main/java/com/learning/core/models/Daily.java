@@ -1,5 +1,6 @@
 package com.learning.core.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +33,9 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString(onlyExplicitlyIncluded = true)
 @Table(name = "daily")
-public class Daily extends Auditable {
+public class Daily extends Auditable implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -118,28 +121,28 @@ public class Daily extends Auditable {
 
     @ManyToMany
     @JoinTable(
-        name = "daily_candidate",
+        name = "daily_applicant",
         joinColumns = @JoinColumn(name = "daily_id"),
-        inverseJoinColumns = @JoinColumn(name = "candidate_id")
+        inverseJoinColumns = @JoinColumn(name = "applicant_id")
     )
-    private List<User> candidates;
+    private List<User> applicants;
 
     @OneToMany(mappedBy = "daily")
     private List<Payment> payments;
 
-    public Boolean isSemPagamento() {
+    public Boolean isNoPayment() {
         return status.equals(DailyStatus.NO_PAYMENT);
     }
 
-    public Boolean isPago() {
+    public Boolean isPaid() {
         return status.equals(DailyStatus.PAID);
     }
 
-    public Boolean isConfirmado() {
+    public Boolean isConfirmed() {
         return status.equals(DailyStatus.CONFIRMED);
     }
 
-    public Boolean isConcluido() {
+    public Boolean isConcluded() {
         return status.equals(DailyStatus.CONCLUDED);
     }
 
