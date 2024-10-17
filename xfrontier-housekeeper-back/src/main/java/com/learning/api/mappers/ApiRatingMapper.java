@@ -15,7 +15,7 @@ public interface ApiRatingMapper {
 
     Rating toModel(RatingRequest request);
 
-    @Mapping(target = "evaluatorName", source = "evaluator.completName")
+    @Mapping(target = "evaluatorName", source = "evaluator.completeName")
     @Mapping(target = "evaluatorPicture", source = "evaluator.userPicture.url")
     RatingResponse toResponse(Rating model);
 

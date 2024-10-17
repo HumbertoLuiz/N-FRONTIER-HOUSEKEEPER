@@ -5,6 +5,7 @@ This project is from the [TreinaWeb](http://treinaweb.com.br/) Multi Stack immer
 
 ## Project Dependencies
 
+- JDK 23
 - Spring Boot
 - Spring Web MVC
 - Thymeleaf

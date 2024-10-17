@@ -12,8 +12,8 @@ public interface ApiUserDailyMapper {
 
 	ApiUserDailyMapper INSTANCE = Mappers.getMapper(ApiUserDailyMapper.class);
 
-    @Mapping(target = "tipoUsuario", source = "tipoUsuario.id")
-    @Mapping(target = "fotoUsuario", source = "fotoUsuario.url")
+    @Mapping(target = "userType", source = "userType.id")
+    @Mapping(target = "userPicture", source = "userPicture.url")
     UserDailyResponse toResponse(User model);
 
 }

@@ -22,6 +22,8 @@ public class DailyResponse extends HateoasResponse {
 
     private Long id;
 
+    private String jobName;
+    
     private LocalDateTime dateService;
 
     private Integer timeService;
@@ -68,7 +70,7 @@ public class DailyResponse extends HateoasResponse {
 
     private LocalDateTime updatedAt;
 
-    private Long jobId;
+    private Long job;
 
     private UserDailyResponse customer;
 

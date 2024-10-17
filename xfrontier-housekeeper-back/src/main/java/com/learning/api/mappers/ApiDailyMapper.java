@@ -26,7 +26,7 @@ public abstract class ApiDailyMapper {
     @Mapping(target = "job", source = "job.id")
     public abstract DailyResponse toResponse(Daily model);
 
-    protected Job longToServico(Long jobId) {
+    protected Job longToJob(Long jobId) {
         return jobRepository.findById(jobId)
             .orElseThrow(IllegalArgumentException::new);
     }

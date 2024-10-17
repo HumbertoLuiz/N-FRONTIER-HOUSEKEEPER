@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy
 import com.learning.api.dtos.responses.ErrorResponse;
 import com.learning.core.exceptions.TokenBlackListException;
 import com.learning.core.exceptions.ValidatingException;
+import com.learning.core.gatewaypagamento.exceptions.GatewayPaymentException;
 import com.learning.core.services.checkaddress.exceptions.AddressServiceException;
 import com.learning.core.services.checkcity.exceptions.CheckCityServiceException;
 import com.learning.core.services.token.exceptions.TokenServiceException;
@@ -80,39 +81,41 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-//    @ExceptionHandler(GatewayPagamentoException.class)
-//    public ResponseEntity<Object> handleGatewayPagamentoException(
-//        GatewayPagamentoException exception, HttpServletRequest request) {
-//        return criarErrorResponse(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(),
-//            request.getRequestURI());
-//    }
-
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-        MethodArgumentNotValidException exception,
-        HttpHeaders headers,
-        HttpStatusCode status,
-        WebRequest request) {
-        return handleBindException(exception, headers, status, request);
+    @ExceptionHandler(GatewayPaymentException.class)
+    public ResponseEntity<Object> handleGatewayPagamentoException(
+    		GatewayPaymentException exception, HttpServletRequest request) {
+        return createErrorResponse(HttpStatus.BAD_REQUEST, exception.getLocalizedMessage(),
+            request.getRequestURI());
     }
 
-    protected ResponseEntity<Object> handleBindException(
-        BindException exception,
-        HttpHeaders headers,
-        HttpStatusCode status,
-        WebRequest request) {
-        var body= new HashMap<String, List<String>>();
-        exception.getBindingResult().getFieldErrors()
-            .forEach(fieldError -> {
-                var field= camelCaseToSnakeCase.translate(fieldError.getField());
-                if (!body.containsKey(field)) {
-                    var fieldErrors= new ArrayList<String>();
-                    fieldErrors.add(fieldError.getDefaultMessage());
-                    body.put(field, fieldErrors);
-                } else {
-                    body.get(field).add(fieldError.getDefaultMessage());
-                }
-            });
-        return ResponseEntity.badRequest().body(body);
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException exception,
+            WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        exception.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<Object> handleBindException(
+            BindException exception,
+            WebRequest request) {
+
+        Map<String, String> errors = new HashMap<>();
+        exception.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
 
